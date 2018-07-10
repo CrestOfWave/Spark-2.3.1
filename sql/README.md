@@ -15,6 +15,7 @@ Running `sql/create-docs.sh` generates SQL documentation for built-in functions 
 
 ------
 
+![image](https://github.com/CrestOfWave/Spark-2.3.1/blob/master/sql/SparkSQL执行计划.png)
 
 总体执行流程如下：从提供的输入API（SQL，Dataset， dataframe）开始，依次经过unresolved逻辑计划，解析的逻辑计划，优化的逻辑计划，物理计划，然后根据cost based优化，选取一条物理计划进行执行。从unresolved logical plan开始， sql的查询是通过抽象语法树（AST）来表示的，所以以后各个操作都是对AST进行的等价转换操作。 针对以上过程作如下几点说明：
 

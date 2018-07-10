@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ae70ffe7-fe41-4c72-8fa4-08d12a9d7985" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/sql/README.md" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/common/network-common/target/" />
     <ignored path="$PROJECT_DIR$/external/kafka-0-10-sql/target/" />
@@ -87,8 +88,8 @@
         <entry file="file://$PROJECT_DIR$/sql/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="94">
-                <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
+              <first_editor relative-caret-position="196">
+                <caret line="17" column="84" selection-start-line="17" selection-start-column="84" selection-end-line="17" selection-end-column="84" />
               </first_editor>
               <second_editor />
             </state>
@@ -344,7 +345,7 @@
       <workItem from="1531200777407" duration="4487000" />
       <workItem from="1531210086200" duration="1000" />
       <workItem from="1531210343161" duration="7144000" />
-      <workItem from="1531217871761" duration="826000" />
+      <workItem from="1531217871761" duration="1493000" />
     </task>
     <task id="LOCAL-00001" summary="修改README.md">
       <created>1531193367482</created>
@@ -430,11 +431,32 @@
       <option name="project" value="LOCAL" />
       <updated>1531218692257</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="small changes">
+      <created>1531218793791</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1531218793791</updated>
+    </task>
+    <task id="LOCAL-00014" summary="small changes">
+      <created>1531218839795</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1531218839795</updated>
+    </task>
+    <task id="LOCAL-00015" summary="small changes">
+      <created>1531219095122</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1531219095122</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18808000" />
+    <option name="totallyTimeSpent" value="19475000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -604,16 +626,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
           <caret line="34" column="46" selection-start-line="34" selection-start-column="46" selection-end-line="34" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="90">
-            <caret line="6" column="26" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
-          </first_editor>
-          <second_editor />
         </state>
       </provider>
     </entry>
@@ -883,11 +895,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="120">
+            <caret line="8" column="73" lean-forward="true" selection-start-line="8" selection-end-line="8" selection-end-column="73" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/sql/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="94">
-            <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
+          <first_editor relative-caret-position="196">
+            <caret line="17" column="84" selection-start-line="17" selection-start-column="84" selection-end-line="17" selection-end-column="84" />
           </first_editor>
           <second_editor />
         </state>
