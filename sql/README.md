@@ -24,6 +24,7 @@ sessionState.sqlParser.parsePlan(sqlText)中发生的。
 def sql(sqlText: String): DataFrame = {
   Dataset.ofRows(self, sessionState.sqlParser.parsePlan(sqlText))
 }
+
 2，调用到parsePlan，将调用parse函数，传入的两个参数分为：sql语句，sqlBaseParse到LogicalPlan的一个函数。
 override def parsePlan(sqlText: String): LogicalPlan = parse(sqlText) { parser =>
   astBuilder.visitSingleStatement(parser.singleStatement()) match {
@@ -33,6 +34,7 @@ override def parsePlan(sqlText: String): LogicalPlan = parse(sqlText) { parser =
       throw new ParseException(Option(sqlText), "Unsupported SQL statement", position, position)
   }
 }
+
 3，在parse函数中，首先构造SqlBaseLexer词法分析器，接着构造Token流，最终SqlBaseParser对象，然后一次尝试用不同的模式去进行解析。最终将执行parsePlan中传入的函数。
 
 
