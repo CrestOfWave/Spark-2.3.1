@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ae70ffe7-fe41-4c72-8fa4-08d12a9d7985" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.github/PULL_REQUEST_TEMPLATE" beforeDir="false" afterPath="$PROJECT_DIR$/.github/PULL_REQUEST_TEMPLATE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assembly/README" beforeDir="false" afterPath="$PROJECT_DIR$/assembly/README" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/spark-submit" beforeDir="false" afterPath="$PROJECT_DIR$/bin/spark-submit" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/mvn" beforeDir="false" afterPath="$PROJECT_DIR$/build/mvn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/network-yarn/src/main/java/org/apache/spark/network/yarn/util/HadoopConfigProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/network-yarn/src/main/java/org/apache/spark/network/yarn/util/HadoopConfigProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/spark-defaults.conf.template" beforeDir="false" afterPath="$PROJECT_DIR$/conf/spark-defaults.conf.template" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/common/network-common/target/" />
+    <ignored path="$PROJECT_DIR$/external/kafka-0-10-sql/target/" />
+    <ignored path="$PROJECT_DIR$/common/sketch/target/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <ignored path="$PROJECT_DIR$/external/flume/target/" />
+    <ignored path="$PROJECT_DIR$/resource-managers/mesos/target/" />
+    <ignored path="$PROJECT_DIR$/tools/target/" />
+    <ignored path="$PROJECT_DIR$/external/kafka-0-8-assembly/target/" />
+    <ignored path="$PROJECT_DIR$/external/kafka-0-10-assembly/target/" />
+    <ignored path="$PROJECT_DIR$/mllib-local/target/" />
+    <ignored path="$PROJECT_DIR$/external/flume-assembly/target/" />
+    <ignored path="$PROJECT_DIR$/external/docker-integration-tests/target/" />
+    <ignored path="$PROJECT_DIR$/mllib/target/" />
+    <ignored path="$PROJECT_DIR$/external/kinesis-asl/target/" />
+    <ignored path="$PROJECT_DIR$/external/spark-ganglia-lgpl/target/" />
+    <ignored path="$PROJECT_DIR$/common/tags/target/" />
+    <ignored path="$PROJECT_DIR$/common/unsafe/target/" />
+    <ignored path="$PROJECT_DIR$/sql/core/target/" />
+    <ignored path="$PROJECT_DIR$/assembly/target/" />
+    <ignored path="$PROJECT_DIR$/hadoop-cloud/target/" />
+    <ignored path="$PROJECT_DIR$/sql/hive/target/" />
+    <ignored path="$PROJECT_DIR$/external/kinesis-asl-assembly/target/" />
+    <ignored path="$PROJECT_DIR$/resource-managers/yarn/target/" />
+    <ignored path="$PROJECT_DIR$/launcher/target/" />
+    <ignored path="$PROJECT_DIR$/common/network-yarn/target/" />
+    <ignored path="$PROJECT_DIR$/common/kvstore/target/" />
+    <ignored path="$PROJECT_DIR$/core/target/" />
+    <ignored path="$PROJECT_DIR$/external/kafka-0-10/target/" />
+    <ignored path="$PROJECT_DIR$/streaming/target/" />
+    <ignored path="$PROJECT_DIR$/external/flume-sink/target/" />
+    <ignored path="$PROJECT_DIR$/common/network-shuffle/target/" />
+    <ignored path="$PROJECT_DIR$/sql/catalyst/target/" />
+    <ignored path="$PROJECT_DIR$/external/kafka-0-8/target/" />
+    <ignored path="$PROJECT_DIR$/examples/target/" />
+    <ignored path="$PROJECT_DIR$/sql/hive-thriftserver/target/" />
+    <ignored path="$PROJECT_DIR$/repl/target/" />
+    <ignored path="$PROJECT_DIR$/graphx/target/" />
+    <ignored path="$PROJECT_DIR$/resource-managers/kubernetes/core/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="GenerateMIMAIgnore.scala" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tools/src/main/scala/org/apache/spark/tools/GenerateMIMAIgnore.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-776">
+              <caret line="41" selection-start-line="41" selection-end-line="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="scalastyle-config.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scalastyle-config.xml">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="90">
+                <caret line="6" column="26" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assembly/README">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="20" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PULL_REQUEST_TEMPLATE" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.github/PULL_REQUEST_TEMPLATE">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="19" selection-start-column="19" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="spark-submit" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bin/spark-submit">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="390">
+              <caret line="26" column="38" selection-start-line="26" selection-start-column="38" selection-end-line="26" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mvn" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build/mvn">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HadoopConfigProvider.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/common/network-yarn/src/main/java/org/apache/spark/network/yarn/util/HadoopConfigProvider.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="26" column="6" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="spark-defaults.conf.template" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/conf/spark-defaults.conf.template">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="spark-submit.cmd" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bin/spark-submit.cmd">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/assembly/README" />
+        <option value="$PROJECT_DIR$/.github/PULL_REQUEST_TEMPLATE" />
+        <option value="$PROJECT_DIR$/bin/spark-submit" />
+        <option value="$PROJECT_DIR$/build/mvn" />
+        <option value="$PROJECT_DIR$/common/network-yarn/src/main/java/org/apache/spark/network/yarn/util/HadoopConfigProvider.java" />
+        <option value="$PROJECT_DIR$/conf/spark-defaults.conf.template" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="createModuleGroups" value="true" />
+        <option name="dedicatedModuleDir" value="$PROJECT_DIR$" />
+        <option name="downloadDocsAutomatically" value="true" />
+        <option name="downloadSourcesAutomatically" value="true" />
+        <option name="importAutomatically" value="true" />
+        <option name="lookForNested" value="true" />
+      </MavenImportingSettings>
+    </option>
+    <option name="enabledProfiles">
+      <list>
+        <option value="hive-thriftserver" />
+        <option value="flume" />
+        <option value="hive-provided" />
+        <option value="Windows" />
+        <option value="hive" />
+        <option value="kafka-0-8" />
+        <option value="hadoop-2.7" />
+        <option value="hadoop-2.6" />
+      </list>
+    </option>
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1440" />
+    <option name="height" value="797" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="spark-2.3.1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spark-2.3.1" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spark-2.3.1" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spark-2.3.1" type="462c0819:PsiDirectoryNode" />
+              <item name="conf" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="AndroidView" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="File.Encoding" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <properties />
+      <listeners />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>$USER_HOME$/.subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ae70ffe7-fe41-4c72-8fa4-08d12a9d7985" name="Default" comment="" />
+      <created>1531190190856</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1531190190856</updated>
+      <workItem from="1531190192458" duration="3368000" />
+    </task>
+    <task id="LOCAL-00001" summary="修改README.md">
+      <created>1531193367482</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1531193367483</updated>
+    </task>
+    <task id="LOCAL-00002" summary="upload jpg">
+      <created>1531193955487</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1531193955487</updated>
+    </task>
+    <task id="LOCAL-00003" summary="upload jpg">
+      <created>1531194166932</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1531194166932</updated>
+    </task>
+    <task id="LOCAL-00004" summary="upload jpg">
+      <created>1531195556257</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1531195556257</updated>
+    </task>
+    <task id="LOCAL-00005" summary="upload jpg">
+      <created>1531195620658</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1531195620658</updated>
+    </task>
+    <task id="LOCAL-00006" summary="upload jpg">
+      <created>1531195848828</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1531195848829</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="3368000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1440" height="797" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info anchor="right" id="Palette" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Palette&#9;" />
+      <window_info id="Image Layers" />
+      <window_info anchor="bottom" id="Java Enterprise" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="right" id="Maven Projects" />
+      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info id="Capture Tool" />
+      <window_info id="Designer" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24964234" />
+      <window_info anchor="right" id="Bean Validation" />
+      <window_info anchor="right" id="Database" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info id="UI Designer" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="修改README.md" />
+    <MESSAGE value="upload jpg" />
+    <option name="LAST_COMMIT_MESSAGE" value="upload jpg" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/tools/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-467" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scalastyle-config.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tools/src/main/scala/org/apache/spark/tools/GenerateMIMAIgnore.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-776">
+          <caret line="41" selection-start-line="41" selection-end-line="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="90">
+            <caret line="6" column="26" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assembly/README">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="20" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.github/PULL_REQUEST_TEMPLATE">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="19" selection-start-column="19" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/spark-submit.cmd">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/spark-submit">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="26" column="38" selection-start-line="26" selection-start-column="38" selection-end-line="26" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build/mvn">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/network-yarn/src/main/java/org/apache/spark/network/yarn/util/HadoopConfigProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="26" column="6" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conf/spark-defaults.conf.template">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArquillianSettingsConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="Copyright.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

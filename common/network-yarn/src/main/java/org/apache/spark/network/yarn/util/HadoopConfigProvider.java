@@ -24,7 +24,7 @@ import org.apache.hadoop.conf.Configuration;
 
 import org.apache.spark.network.util.ConfigProvider;
 
-/** Use the Hadoop configuration to obtain config values. */
+/** 使用Hadoop configuration 获取配置值 */
 public class HadoopConfigProvider extends ConfigProvider {
   private final Configuration conf;
 
