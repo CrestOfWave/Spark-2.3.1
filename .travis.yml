@@ -12,7 +12,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 # Spark provides this Travis CI configuration file to help contributors
 # check Scala/Java style conformance and JDK7/8 compilation easily
 # during their preparing pull requests.

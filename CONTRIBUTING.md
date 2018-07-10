@@ -1,5 +1,6 @@
 ## Contributing to Spark
 
+
 *Before opening a pull request*, review the 
 [Contributing to Spark guide](http://spark.apache.org/contributing.html). 
 It lists steps that are required before creating a PR. In particular, consider:
