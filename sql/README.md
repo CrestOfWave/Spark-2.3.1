@@ -1,6 +1,4 @@
-Spark SQL
-=========
-
+##Spark SQL
 该模型允许你使用SQL或者DataFrame或DataSet进行关系型查询
 Spark SQL划分为四个子项目:
  - Catalyst (sql/catalyst) - 解析关系操作算子和表达式的语法树的实现框架
@@ -10,6 +8,7 @@ Spark SQL划分为四个子项目:
 
 Running `sql/create-docs.sh` generates SQL documentation for built-in functions under `sql/site`.
 
+###SQL解析的过程
 如果使用选择使用SQL进行查询，首先需要将SQL解析成spark中的抽象语法树（AST）。在spark中是借助开源的antlr4库来解析的。Spark SQL的语法规则文件是：SqlBase.g4。该文件以及生成的相关文件截图如下。
 
 

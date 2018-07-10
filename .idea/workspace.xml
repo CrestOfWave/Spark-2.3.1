@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ae70ffe7-fe41-4c72-8fa4-08d12a9d7985" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/scala_compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/scala_compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/spark-submit" beforeDir="false" afterPath="$PROJECT_DIR$/bin/spark-submit" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/sql/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/catalyst/src/main/scala/org/apache/spark/sql/catalyst/catalog/interface.scala" beforeDir="false" afterPath="$PROJECT_DIR$/sql/catalyst/src/main/scala/org/apache/spark/sql/catalyst/catalog/interface.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/SparkSession.scala" beforeDir="false" afterPath="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/SparkSession.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/SparkSqlParser.scala" beforeDir="false" afterPath="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/SparkSqlParser.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/datasources/DataSource.scala" beforeDir="false" afterPath="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/datasources/DataSource.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/datasources/DataSourceStrategy.scala" beforeDir="false" afterPath="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/datasources/DataSourceStrategy.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/internal/BaseSessionStateBuilder.scala" beforeDir="false" afterPath="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/internal/BaseSessionStateBuilder.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/internal/SessionState.scala" beforeDir="false" afterPath="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/internal/SessionState.scala" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/common/network-common/target/" />
     <ignored path="$PROJECT_DIR$/external/kafka-0-10-sql/target/" />
@@ -87,8 +77,20 @@
       <file leaf-file-name="SparkSession.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/SparkSession.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
+            <state relative-caret-position="-867">
               <caret line="643" column="55" selection-start-line="643" selection-start-column="55" selection-end-line="643" selection-end-column="55" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/sql/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="94">
+                <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -102,22 +104,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/sql/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="619">
-                <caret line="65" column="102" selection-start-line="65" selection-start-column="102" selection-end-line="65" selection-end-column="102" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="SessionState.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/internal/SessionState.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-52">
+            <state relative-caret-position="280">
               <caret line="65" column="8" selection-start-line="65" selection-start-column="8" selection-end-line="65" selection-end-column="8" />
             </state>
           </provider>
@@ -354,7 +344,7 @@
       <workItem from="1531200777407" duration="4487000" />
       <workItem from="1531210086200" duration="1000" />
       <workItem from="1531210343161" duration="7144000" />
-      <workItem from="1531217871761" duration="588000" />
+      <workItem from="1531217871761" duration="826000" />
     </task>
     <task id="LOCAL-00001" summary="修改README.md">
       <created>1531193367482</created>
@@ -426,11 +416,25 @@
       <option name="project" value="LOCAL" />
       <updated>1531199863900</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="small changes">
+      <created>1531218564038</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1531218564038</updated>
+    </task>
+    <task id="LOCAL-00012" summary="small changes">
+      <created>1531218692257</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1531218692257</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18570000" />
+    <option name="totallyTimeSpent" value="18808000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -442,7 +446,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="797" extended-state="0" />
+    <frame x="-3" y="24" width="1440" height="797" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -826,13 +830,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/internal/SessionState.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-52">
-          <caret line="65" column="8" selection-start-line="65" selection-start-column="8" selection-end-line="65" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sql/catalyst/target/generated-sources/antlr4/org/apache/spark/sql/catalyst/parser/SqlBaseParser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="645">
@@ -858,13 +855,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/SparkSession.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="643" column="55" selection-start-line="643" selection-start-column="55" selection-end-line="643" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sql/catalyst/src/main/scala/org/apache/spark/sql/internal/SQLConf.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
@@ -879,11 +869,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/internal/SessionState.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="65" column="8" selection-start-line="65" selection-start-column="8" selection-end-line="65" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/SparkSession.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-867">
+          <caret line="643" column="55" selection-start-line="643" selection-start-column="55" selection-end-line="643" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/sql/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="619">
-            <caret line="65" column="102" selection-start-line="65" selection-start-column="102" selection-end-line="65" selection-end-column="102" />
+          <first_editor relative-caret-position="94">
+            <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
           </first_editor>
           <second_editor />
         </state>
