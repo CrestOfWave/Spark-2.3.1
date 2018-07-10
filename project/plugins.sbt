@@ -33,5 +33,4 @@ addSbtPlugin("com.simplytyped" % "sbt-antlr4" % "0.7.11")
 // and corresponds to commit b160317fcb0b9d1009635a7c5aa05d0f3be61936 in that repository.
 // In the long run, we should try to merge our patch upstream and switch to an upstream version of
 // the plugin; this is tracked at SPARK-14401.
-
 addSbtPlugin("org.spark-project" % "sbt-pom-reader" % "1.0.0-spark")

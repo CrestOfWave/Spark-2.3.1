@@ -2,23 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ae70ffe7-fe41-4c72-8fa4-08d12a9d7985" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/scala_compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/scala_compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/external/kafka-0-10-sql/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/external/kafka-0-10-sql/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphx/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/graphx/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hadoop-cloud/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/hadoop-cloud/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/launcher/src/test/java/org/apache/spark/launcher/BaseSuite.java" beforeDir="false" afterPath="$PROJECT_DIR$/launcher/src/test/java/org/apache/spark/launcher/BaseSuite.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/licenses/LICENSE-dagre-d3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/licenses/LICENSE-dagre-d3.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mllib-local/src/main/scala/org/apache/spark/ml/linalg/Matrices.scala" beforeDir="false" afterPath="$PROJECT_DIR$/mllib-local/src/main/scala/org/apache/spark/ml/linalg/Matrices.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mllib-local/src/test/scala/org/apache/spark/ml/util/TestingUtils.scala" beforeDir="false" afterPath="$PROJECT_DIR$/mllib-local/src/test/scala/org/apache/spark/ml/util/TestingUtils.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mllib/src/test/scala/org/apache/spark/mllib/util/NumericParserSuite.scala" beforeDir="false" afterPath="$PROJECT_DIR$/mllib/src/test/scala/org/apache/spark/mllib/util/NumericParserSuite.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/python/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/repl/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/repl/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource-managers/yarn/src/main/scala/org/apache/spark/deploy/yarn/config.scala" beforeDir="false" afterPath="$PROJECT_DIR$/resource-managers/yarn/src/main/scala/org/apache/spark/deploy/yarn/config.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sbin/start-all.sh" beforeDir="false" afterPath="$PROJECT_DIR$/sbin/start-all.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/sql/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/streaming/src/main/scala/org/apache/spark/status/api/v1/streaming/api.scala" beforeDir="false" afterPath="$PROJECT_DIR$/streaming/src/main/scala/org/apache/spark/status/api/v1/streaming/api.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/src/main/scala/org/apache/spark/tools/GenerateMIMAIgnore.scala" beforeDir="false" afterPath="$PROJECT_DIR$/tools/src/main/scala/org/apache/spark/tools/GenerateMIMAIgnore.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/plugins.sbt" beforeDir="false" afterPath="$PROJECT_DIR$/project/plugins.sbt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/common/network-common/target/" />
     <ignored path="$PROJECT_DIR$/external/kafka-0-10-sql/target/" />
@@ -67,11 +52,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/graphx/pom.xml">
+      <file leaf-file-name="plugins.sbt" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/project/plugins.sbt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="49" selection-start-line="9" selection-start-column="49" selection-end-line="9" selection-end-column="49" />
+            <state relative-caret-position="510">
+              <caret line="34" column="46" selection-start-line="34" selection-start-column="46" selection-end-line="34" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -122,6 +107,7 @@
         <option value="$PROJECT_DIR$/hadoop-cloud/pom.xml" />
         <option value="$PROJECT_DIR$/external/kafka-0-10-sql/pom.xml" />
         <option value="$PROJECT_DIR$/graphx/pom.xml" />
+        <option value="$PROJECT_DIR$/project/plugins.sbt" />
       </list>
     </option>
   </component>
@@ -193,23 +179,7 @@
             <path>
               <item name="spark-2.3.1" type="b2602c69:ProjectViewProjectNode" />
               <item name="spark-2.3.1" type="462c0819:PsiDirectoryNode" />
-              <item name="external" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spark-2.3.1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spark-2.3.1" type="462c0819:PsiDirectoryNode" />
-              <item name="external" type="462c0819:PsiDirectoryNode" />
-              <item name="kafka-0-10-sql" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spark-2.3.1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spark-2.3.1" type="462c0819:PsiDirectoryNode" />
-              <item name="graphx" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spark-2.3.1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spark-2.3.1" type="462c0819:PsiDirectoryNode" />
-              <item name="hadoop-cloud" type="462c0819:PsiDirectoryNode" />
+              <item name="project" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -293,7 +263,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1531190190856</updated>
-      <workItem from="1531190192458" duration="5250000" />
+      <workItem from="1531190192458" duration="5450000" />
     </task>
     <task id="LOCAL-00001" summary="修改README.md">
       <created>1531193367482</created>
@@ -351,11 +321,18 @@
       <option name="project" value="LOCAL" />
       <updated>1531198406159</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="small changes">
+      <created>1531199780822</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1531199780822</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5250000" />
+    <option name="totallyTimeSpent" value="5450000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="797" extended-state="6" />
@@ -405,11 +382,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="small changes" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tools/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-467" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.github/PULL_REQUEST_TEMPLATE">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -766,6 +738,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="9" column="49" selection-start-line="9" selection-start-column="49" selection-end-line="9" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/plugins.sbt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="34" column="46" selection-start-line="34" selection-start-column="46" selection-end-line="34" selection-end-column="46" />
         </state>
       </provider>
     </entry>
