@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-// scalastyle:off println
 package org.apache.spark.examples
 
 import org.apache.spark.sql.SparkSession

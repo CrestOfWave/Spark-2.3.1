@@ -1,6 +1,7 @@
 # R on Spark
 
-SparkR is an R package that provides a light-weight frontend to use Spark from R.
+SPARKR是一个R封装，提供了一个轻量级前端在spark中使用R。
+
 
 ### Installing sparkR
 

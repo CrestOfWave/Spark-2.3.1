@@ -1,6 +1,6 @@
 ---
 layout: global
-title: Spark API Documentation
+title: Spark API 文档
 ---
 
 Here you can read API docs for Spark and its submodules.

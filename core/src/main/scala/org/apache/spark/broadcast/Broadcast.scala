@@ -31,7 +31,7 @@ import org.apache.spark.util.Utils
  * example, to give every node a copy of a large input dataset in an efficient manner. Spark also
  * attempts to distribute broadcast variables using efficient broadcast algorithms to reduce
  * communication cost.
- *
+ * 广播变量
  * Broadcast variables are created from a variable `v` by calling
  * [[org.apache.spark.SparkContext#broadcast]].
  * The broadcast variable is a wrapper around `v`, and its value can be accessed by calling the
