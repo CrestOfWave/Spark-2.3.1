@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/assembly" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common/kvstore" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common/network-common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common/network-shuffle" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common/network-yarn" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common/sketch" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common/tags" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common/unsafe" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/examples" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/external/docker-integration-tests" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/external/flume" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/external/flume-assembly" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/external/flume-sink" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/external/kafka-0-10" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/external/kafka-0-10-assembly" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/external/kafka-0-10-sql" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/external/kafka-0-8" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/external/kafka-0-8-assembly" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/external/kinesis-asl" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/external/kinesis-asl-assembly" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/external/spark-ganglia-lgpl" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/graphx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hadoop-cloud" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/launcher" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mllib" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mllib-local" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/repl" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resource-managers/kubernetes/core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resource-managers/mesos" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/resource-managers/yarn" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sql/catalyst" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sql/core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sql/hive" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/sql/hive-thriftserver" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/streaming" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tools" charset="UTF-8" />
+  </component>
+</project>

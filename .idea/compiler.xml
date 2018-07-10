@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="spark-catalyst_2.11" />
+        <module name="spark-core_2.11" />
+        <module name="spark-docker-integration-tests_2.11" />
+        <module name="spark-examples_2.11" />
+        <module name="spark-ganglia-lgpl_2.11" />
+        <module name="spark-graphx_2.11" />
+        <module name="spark-hadoop-cloud_2.11" />
+        <module name="spark-hive-thriftserver_2.11" />
+        <module name="spark-hive_2.11" />
+        <module name="spark-kubernetes_2.11" />
+        <module name="spark-kvstore_2.11" />
+        <module name="spark-launcher_2.11" />
+        <module name="spark-mesos_2.11" />
+        <module name="spark-mllib-local_2.11" />
+        <module name="spark-mllib_2.11" />
+        <module name="spark-network-common_2.11" />
+        <module name="spark-network-shuffle_2.11" />
+        <module name="spark-network-yarn_2.11" />
+        <module name="spark-repl_2.11" />
+        <module name="spark-sketch_2.11" />
+        <module name="spark-sql-kafka-0-10_2.11" />
+        <module name="spark-sql_2.11" />
+        <module name="spark-streaming-flume-assembly_2.11" />
+        <module name="spark-streaming-flume-sink_2.11" />
+        <module name="spark-streaming-flume_2.11" />
+        <module name="spark-streaming-kafka-0-10-assembly_2.11" />
+        <module name="spark-streaming-kafka-0-10_2.11" />
+        <module name="spark-streaming-kafka-0-8-assembly_2.11" />
+        <module name="spark-streaming-kafka-0-8_2.11" />
+        <module name="spark-streaming-kinesis-asl-assembly_2.11" />
+        <module name="spark-streaming-kinesis-asl_2.11" />
+        <module name="spark-streaming_2.11" />
+        <module name="spark-tags_2.11" />
+        <module name="spark-tools_2.11" />
+        <module name="spark-unsafe_2.11" />
+        <module name="spark-yarn_2.11" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>
