@@ -324,7 +324,7 @@ case class DataSource(
   /**
    * Create a resolved [[BaseRelation]] that can be used to read data from or write data into this
    * [[DataSource]]
-   *
+   *创建一个已经解决的BaseRelation，其可以用来读数据或者写入数据
    * @param checkFilesExist Whether to confirm that the files exist when generating the
    *                        non-streaming file based datasource. StructuredStreaming jobs already
    *                        list file existence, and when generating incremental jobs, the batch
@@ -608,6 +608,7 @@ object DataSource extends Logging {
     }
     val provider2 = s"$provider1.DefaultSource"
     val loader = Utils.getContextOrSparkClassLoader
+//    会在resources查找DataSourceRegister的实现
     val serviceLoader = ServiceLoader.load(classOf[DataSourceRegister], loader)
 
     try {

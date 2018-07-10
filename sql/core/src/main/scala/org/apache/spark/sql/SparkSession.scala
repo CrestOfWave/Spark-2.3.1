@@ -131,6 +131,9 @@ class SparkSession private(
    * functions, and everything else that accepts a [[org.apache.spark.sql.internal.SQLConf]].
    * If `parentSessionState` is not null, the `SessionState` will be a copy of the parent.
    *
+   * sessions之间的state是隔离的，这些状态包括sql配置，临时表，注册的函数，还有其它任何包含了
+   * [[org.apache.spark.sql.internal.SQLConf]]的东西。
+   * 如果parentSessionState不为null，SessionState会是一个副本。
    * This is internal to Spark and there is no guarantee on interface stability.
    *
    * @since 2.2.0
@@ -189,7 +192,6 @@ class SparkSession private(
   @Experimental
   @InterfaceStability.Unstable
   def experimental: ExperimentalMethods = sessionState.experimentalMethods
-
   /**
    * A collection of methods for registering user-defined functions (UDF).
    *
@@ -638,6 +640,7 @@ class SparkSession private(
    * @since 2.0.0
    */
   def sql(sqlText: String): DataFrame = {
+//    SparkSqlParser
     Dataset.ofRows(self, sessionState.sqlParser.parsePlan(sqlText))
   }
 

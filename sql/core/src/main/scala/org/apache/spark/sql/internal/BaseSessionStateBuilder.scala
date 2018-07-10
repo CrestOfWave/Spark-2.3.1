@@ -32,7 +32,7 @@ import org.apache.spark.sql.util.ExecutionListenerManager
 
 /**
  * Builder class that coordinates construction of a new [[SessionState]].
- *
+ *构建SessionState的类
  * The builder explicitly defines all components needed by the session state, and creates a session
  * state when `build` is called. Components should only be initialized once. This is not a problem
  * for most components as they are only used in the `build` function. However some components
@@ -40,6 +40,10 @@ import org.apache.spark.sql.util.ExecutionListenerManager
  * for other components and are shared as a result. These components are defined as lazy vals to
  * make sure the component is created only once.
  *
+ * 该builer构直接定义了构建sessionstate的所有组建。组建仅仅能被初始化一次。然而有些组建（`conf`, `catalog`,
+  * `functionRegistry`, `experimentalMethods` & `sqlParser`）是依赖于其它组建的，并且仅仅作为结果共享。
+  * 这些组建被定义为lazy变量，来保证变量仅仅初始化一次。
+  *
  * A developer can modify the builder by providing custom versions of components, or by using the
  * hooks provided for the analyzer, optimizer & planner. There are some dependencies between the
  * components (they are documented per dependency), a developer should respect these when making
@@ -101,7 +105,7 @@ abstract class BaseSessionStateBuilder(
   /**
    * Experimental methods that can be used to define custom optimization rules and custom planning
    * strategies.
-   *
+   *试验性质的方法，可以用来定义自定义的优化规则和自定义执行策略，在sessionstate里面是experimentalMethods，在SparkSession里面experimental
    * This either gets cloned from a pre-existing version or newly created.
    */
   protected lazy val experimentalMethods: ExperimentalMethods = {
@@ -125,7 +129,7 @@ abstract class BaseSessionStateBuilder(
   /**
    * Catalog for managing table and database states. If there is a pre-existing catalog, the state
    * of that catalog (temp tables & current database) will be copied into the new catalog.
-   *
+   *catalog用来管理表和数据库的状态。如果存在已有的catalog，该已有的catalog（临时表和当前db）将会被复制到新的catalog
    * Note: this depends on the `conf`, `functionRegistry` and `sqlParser` fields.
    */
   protected lazy val catalog: SessionCatalog = {

@@ -45,7 +45,7 @@ import org.apache.spark.unsafe.types.UTF8String
 /**
  * Replaces generic operations with specific variants that are designed to work with Spark
  * SQL Data Sources.
- *
+ *使用能处理SparkSQL Data Sources的特定变体来替换通用的操作
  * Note that, this rule must be run after `PreprocessTableCreation` and
  * `PreprocessTableInsertion`.
  */
@@ -216,7 +216,7 @@ case class DataSourceAnalysis(conf: SQLConf) extends Rule[LogicalPlan] with Cast
 
 /**
  * Replaces [[UnresolvedCatalogRelation]] with concrete relation logical plans.
- *
+ *使用具体的逻辑计划代替UnresolvedCatalogRelation
  * TODO: we should remove the special handling for hive tables after completely making hive as a
  * data source.
  */
@@ -232,6 +232,7 @@ class FindDataSourceTable(sparkSession: SparkSession) extends Rule[LogicalPlan] 
             sparkSession,
             // In older version(prior to 2.1) of Spark, the table schema can be empty and should be
             // inferred at runtime. We should still support it.
+            //2.1之前的spark版本，表的schema是运行时被推测执行得到的。依然支持
             userSpecifiedSchema = if (table.schema.isEmpty) None else Some(table.schema),
             partitionColumns = table.partitionColumnNames,
             bucketSpec = table.bucketSpec,
@@ -239,12 +240,16 @@ class FindDataSourceTable(sparkSession: SparkSession) extends Rule[LogicalPlan] 
             options = table.storage.properties ++ pathOption,
             catalogTable = Some(table))
 
+//        用于将BaseRelation链接到逻辑查询计划
         LogicalRelation(dataSource.resolveRelation(checkFilesExist = false), table)
       }
     })
   }
 
   private def readHiveTable(table: CatalogTable): LogicalPlan = {
+
+    /* 代表hive表的逻辑计划 */
+
     HiveTableRelation(
       table,
       // Hive table columns are always nullable.
@@ -271,6 +276,7 @@ class FindDataSourceTable(sparkSession: SparkSession) extends Rule[LogicalPlan] 
 
 /**
  * A Strategy for planning scans over data sources defined using the sources API.
+  * 扫描既定数据源的策略，使用的是sources的API
  */
 case class DataSourceStrategy(conf: SQLConf) extends Strategy with Logging with CastSupport {
   import DataSourceStrategy._
@@ -445,7 +451,7 @@ case class DataSourceStrategy(conf: SQLConf) extends Strategy with Logging with 
 object DataSourceStrategy {
   /**
    * Tries to translate a Catalyst [[Expression]] into data source [[Filter]].
-   *
+   *将Catalyst-Expression转化为DataSource-filter
    * @return a `Some[Filter]` if the input [[Expression]] is convertible, otherwise a `None`.
    */
   protected[sql] def translateFilter(predicate: Expression): Option[Filter] = {

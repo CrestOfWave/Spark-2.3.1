@@ -74,6 +74,8 @@ private[sql] class SessionState(
     createClone: (SparkSession, SessionState) => SessionState) {
 
   // The following fields are lazy to avoid creating the Hive client when creating SessionState.
+//  SparkSession中sessionState是一个lazy变量
+//  SparkSession中的instantiateSessionState方法，实力化 BaseSessionStateBuilder 然后调用了起build进行的初始化
   lazy val catalog: SessionCatalog = catalogBuilder()
 
   lazy val analyzer: Analyzer = analyzerBuilder()

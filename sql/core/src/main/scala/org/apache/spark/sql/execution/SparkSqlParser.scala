@@ -51,6 +51,7 @@ class SparkSqlParser(conf: SQLConf) extends AbstractSqlParser {
 
 /**
  * Builder that converts an ANTLR ParseTree into a LogicalPlan/Expression/TableIdentifier.
+  将ANTLR语法树转化为LogicalPlan/Expression/TableIdentifier
  */
 class SparkSqlAstBuilder(conf: SQLConf) extends AstBuilder(conf) {
   import org.apache.spark.sql.catalyst.parser.ParserUtils._

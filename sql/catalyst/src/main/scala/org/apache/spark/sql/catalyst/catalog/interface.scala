@@ -48,6 +48,7 @@ case class CatalogFunction(
 
 /**
  * Storage format, used to describe how a partition or a table is stored.
+  *用来描述表或者分区是如何存储的
  */
 case class CatalogStorageFormat(
     locationUri: Option[URI],
@@ -87,7 +88,7 @@ object CatalogStorageFormat {
 
 /**
  * A partition (Hive style) defined in the catalog.
- *
+ *hive风格的分区，定义在catalog中
  * @param spec partition spec values indexed by column name
  * @param storage storage format of the partition
  * @param parameters some parameters for the partition
@@ -153,7 +154,7 @@ case class CatalogTablePartition(
  * A container for bucketing information.
  * Bucketing is a technology for decomposing data sets into more manageable parts, and the number
  * of buckets is fixed so it does not fluctuate with data.
- *
+ *分桶是将数据拆分成更可管理的部分，分桶数目是确定的，不会随着数据变动
  * @param numBuckets number of buckets.
  * @param bucketColumnNames the names of the columns that used to generate the bucket id.
  * @param sortColumnNames the names of the columns that used to sort data in each bucket.
@@ -387,7 +388,7 @@ case class CatalogStatistics(
   }
 }
 
-
+//表类型
 case class CatalogTableType private(name: String)
 object CatalogTableType {
   val EXTERNAL = new CatalogTableType("EXTERNAL")
