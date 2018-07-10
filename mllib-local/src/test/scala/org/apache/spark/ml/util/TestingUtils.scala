@@ -26,6 +26,7 @@ object TestingUtils {
   val ABS_TOL_MSG = " using absolute tolerance"
   val REL_TOL_MSG = " using relative tolerance"
 
+
   /**
    * Private helper function for comparing two values using relative tolerance.
    * Note that if x or y is extremely close to zero, i.e., smaller than Double.MinPositiveValue,

@@ -28,7 +28,6 @@ import org.clapper.classutil.ClassFinder
 /**
  * A tool for generating classes to be excluded during binary checking with MIMA. It is expected
  * that this tool is run with ./spark-class.
- *
  * MIMA itself only supports JVM-level visibility and doesn't account for package-private classes.
  * This tool looks at all currently package-private classes and generates exclusions for them. Note
  * that this approach is not sound. It can lead to false positives if we move or rename a previously
