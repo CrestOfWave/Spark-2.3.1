@@ -1,4 +1,6 @@
-##Spark SQL
+## Spark SQL
+
+------
 
 该模型允许你使用SQL或者DataFrame或DataSet进行关系型查询
 Spark SQL划分为四个子项目:
@@ -9,7 +11,31 @@ Spark SQL划分为四个子项目:
 
 Running `sql/create-docs.sh` generates SQL documentation for built-in functions under `sql/site`.
 
-###SQL解析的过程
+### Spark SQL的执行计划
+
+------
+
+
+总体执行流程如下：从提供的输入API（SQL，Dataset， dataframe）开始，依次经过unresolved逻辑计划，解析的逻辑计划，优化的逻辑计划，物理计划，然后根据cost based优化，选取一条物理计划进行执行。从unresolved logical plan开始， sql的查询是通过抽象语法树（AST）来表示的，所以以后各个操作都是对AST进行的等价转换操作。 针对以上过程作如下几点说明：
+
+1，编程接口：通过像df.groupBy("age")这样的Dataset接口构造查询过程，抽象语法树（AST）会自动建立。而通过“SELECT name, count(age) FROM people where age > 21 group by name” 这样的sql语句进行查询时，需要增加一个步骤是，需要将SQL解析成AST（spark 2.2中目前是借助于antlr4来做的，具体见后面分析）。
+
+2，经过步骤1后，我们可以得到unresolved logical plan，此时像以上sql中的name，count（age），people都是unresolved attribute，relation等，他们是AST树TreeNode的一中类型，但是他们是不能被计算的（实现了Unevaluable接口）。
+
+3，unresolved logical plan通过Analyzer模块定义的一系列规则，将步骤2中的unresolved的attribute，relation借助catalog去解析，如将之前提到的unresolved attribute转换成resolved attribute。此时，如果sql中某个表不存在或者列和表不对应，在此阶段便可以发现。Analyzer定义一系列部分规则如下：
+
+
+
+4，解析成resolved logical plan以后，通过一系列优化规则会将resolved logical plan的AST转化成optimized logical plan的AST。这些优化包括基于规则和代价的优化，比如谓词下推，列值裁剪等。
+
+
+
+5，AST到了optimized logical plan以后，利用如下的策略将逻辑计划转化成物理计划，物理计划是可以执行的计划。当有相关的action操作时，物理计划便可以执行。
+
+### SQL解析的过程
+
+------
+
 
 如果使用选择使用SQL进行查询，首先需要将SQL解析成spark中的抽象语法树（AST）。在spark中是借助开源的antlr4库来解析的。Spark SQL的语法规则文件是：SqlBase.g4。该文件以及生成的相关文件截图如下。
 
