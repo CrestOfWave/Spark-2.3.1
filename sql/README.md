@@ -111,6 +111,9 @@ override def visitTableIdentifier(
 ------
 
 逻辑执行计划到物理执行计划转化的过程是在SparkPlanner内，物理执行计划到codegen是在每一个物理执行计划内部构建的。
+
+codegen技术是用scala的字符串插值特性生成源码，然后使用Janino，编译成java字节码。
+
 本小结是讲codegen的过程，以SortExec为例，我们可以查看其具体执行的方法，doExecutor
 
 ```$xslt
