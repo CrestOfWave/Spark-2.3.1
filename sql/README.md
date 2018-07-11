@@ -54,6 +54,7 @@ def sql(sqlText: String): DataFrame = {
 }
 
 2，调用到parsePlan，将调用parse函数，传入的两个参数分为：sql语句，sqlBaseParse到LogicalPlan的一个函数。
+
 override def parsePlan(sqlText: String): LogicalPlan = parse(sqlText) { parser =>
   astBuilder.visitSingleStatement(parser.singleStatement()) match {
     case plan: LogicalPlan => plan
@@ -73,24 +74,33 @@ astBuilder.visitSingleStatement使用visitor模式，开始匹配SqlBase.g4中sq
 singleStatement
  : statement EOF
  ;
+ 
+ 
 递归的遍历statement，以及其后的各个节点。在匹配过程中，碰到叶子节点，就将构造Logical Plan中对应的TreeNode。如当匹配到
 
 singleTableIdentifier
  : tableIdentifier EOF
  ;
+ 
+ 
 规则时(单表的标识符)。即调用的函数如下：
 
 override def visitSingleTableIdentifier(
     ctx: SingleTableIdentifierContext): TableIdentifier = withOrigin(ctx) {
   visitTableIdentifier(ctx.tableIdentifier)
 }
+
 可以看到将递归遍历对应的tableIdentifier，tableIdentifier的定义和遍历规则如下：
 
 tableIdentifier
  : (db=identifier '.')? table=identifier
  ;
+ 
+ 
 override def visitTableIdentifier(
     ctx: TableIdentifierContext): TableIdentifier = withOrigin(ctx) {
   TableIdentifier(ctx.table.getText, Option(ctx.db).map(_.getText))
 }
+
+
 可以看到当匹配到tableIdentifier，将直接生成TableIdentifier对象，而该对象是TreeNode的一种。经过类似以上的过程，匹配结束后整个spark内部的抽象语法树也就建立起来了。

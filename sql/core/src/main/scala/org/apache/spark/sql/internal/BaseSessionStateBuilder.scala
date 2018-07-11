@@ -18,7 +18,7 @@ package org.apache.spark.sql.internal
 
 import org.apache.spark.SparkConf
 import org.apache.spark.annotation.{Experimental, InterfaceStability}
-import org.apache.spark.sql.{ExperimentalMethods, SparkSession, UDFRegistration, _}
+import org.apache.spark.sql.{ExperimentalMethods, SparkSession, Strategy, UDFRegistration, _}
 import org.apache.spark.sql.catalyst.analysis.{Analyzer, FunctionRegistry}
 import org.apache.spark.sql.catalyst.catalog.SessionCatalog
 import org.apache.spark.sql.catalyst.optimizer.Optimizer
@@ -155,7 +155,7 @@ abstract class BaseSessionStateBuilder(
 
   /**
    * Logical query plan analyzer for resolving unresolved attributes and relations.
-   *
+   *逻辑查询计划分析器，目的是解析 unresolved attributes and relations
    * Note: this depends on the `conf` and `catalog` fields.
    */
   protected def analyzer: Analyzer = new Analyzer(catalog, conf) {
@@ -231,7 +231,7 @@ abstract class BaseSessionStateBuilder(
 
   /**
    * Planner that converts optimized logical plans to physical plans.
-   *
+   * 逻辑计划到物理计划
    * Note: this depends on the `conf` and `experimentalMethods` fields.
    */
   protected def planner: SparkPlanner = {

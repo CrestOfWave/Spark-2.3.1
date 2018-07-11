@@ -37,6 +37,10 @@ private[sql] object JsonInferSchema {
    *   1. Infer the type of each record
    *   2. Merge types by choosing the lowest type necessary to cover equal keys
    *   3. Replace any remaining null fields with string, the top type
+    *推断一个json记录的类型分三个阶段，
+    * 1，推断每隔输入的类型
+    * 2，合并类型
+    * 3，用string类型替换null
    */
   def infer[T](
       json: RDD[T],
@@ -67,7 +71,7 @@ private[sql] object JsonInferSchema {
           }
         }
       }
-    }.fold(StructType(Nil))(
+    }.fold(StructType(Nil))( // fold方法值得学习，会先分别作用于每个分区，然后合并
       compatibleRootType(columnNameOfCorruptRecord, parseMode))
 
     canonicalizeType(rootType) match {
@@ -95,8 +99,9 @@ private[sql] object JsonInferSchema {
     true
   }
 
-  /**
-   * Infer the type of a json document from the parser's token stream
+/**
+   *  Infer the type of a json document from the parser's token stream
+    *  推断json document的类型
    */
   private def inferField(parser: JsonParser, configOptions: JSONOptions): DataType = {
     import com.fasterxml.jackson.core.JsonToken._
@@ -177,6 +182,7 @@ private[sql] object JsonInferSchema {
 
   /**
    * Convert NullType to StringType and remove StructTypes with no fields
+    * 将NullType转化为StringType并且移除无fields的StructTypes
    */
   private def canonicalizeType(tpe: DataType): Option[DataType] = tpe match {
     case at @ ArrayType(elementType, _) =>
@@ -237,9 +243,10 @@ private[sql] object JsonInferSchema {
         s"Parse Mode: ${FailFastMode.name}. Reasons: Failed to infer a common schema. " +
         s"Struct types are expected, but `${other.catalogString}` was found.")
   }
-
-  /**
+/**
    * Remove top-level ArrayType wrappers and merge the remaining schemas
+    * 移除顶层的ArrayType包装，然后合并剩余的schemas
+  * case 和偏函数的使用
    */
   private def compatibleRootType(
       columnNameOfCorruptRecords: String,
@@ -257,15 +264,17 @@ private[sql] object JsonInferSchema {
       withCorruptField(struct, o, columnNameOfCorruptRecords, parseMode)
     case (o, struct: StructType) if !o.isInstanceOf[StructType] =>
       withCorruptField(struct, o, columnNameOfCorruptRecords, parseMode)
-    // If we get anything else, we call compatibleType.
+// If we get anything else, we call compatibleType.
     // Usually, when we reach here, ty1 and ty2 are two StructTypes.
+//      通常ty1和ty2是两个StructTypes，才会走到这个步骤
     case (ty1, ty2) => compatibleType(ty1, ty2)
   }
 
   private[this] val emptyStructFieldArray = Array.empty[StructField]
 
-  /**
+/**
    * Returns the most general data type for two given data types.
+    * 针对两个给定的type，返回一个通用的给定类型
    */
   def compatibleType(t1: DataType, t2: DataType): DataType = {
     TypeCoercion.findTightestCommonType(t1, t2).getOrElse {

@@ -24,6 +24,7 @@ import org.apache.spark.sql.types._
 /**
  * Parser that turns case class strings into datatypes. This is only here to maintain compatibility
  * with Parquet files written by Spark 1.1 and below.
+  * 将case class转化为datatypes
  */
 object LegacyTypeStringParser extends RegexParsers {
 

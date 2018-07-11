@@ -88,6 +88,9 @@ object AnalysisContext {
 /**
  * Provides a logical query plan analyzer, which translates [[UnresolvedAttribute]]s and
  * [[UnresolvedRelation]]s into fully typed objects using information in a [[SessionCatalog]].
+  * 使用SessionCatalog中的信息将UnresolvedAttribute和UnresolvedRelation转化为全类型定义的对象
+  *
+  * BaseSessionStateBuilder 内部使用
  */
 class Analyzer(
     catalog: SessionCatalog,

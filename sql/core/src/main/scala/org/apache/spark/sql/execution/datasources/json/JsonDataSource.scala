@@ -97,8 +97,10 @@ object TextInputJsonDataSource extends JsonDataSource {
   }
 
   def inferFromDataset(json: Dataset[String], parsedOptions: JSONOptions): StructType = {
+//    根据采样比例进行采样，默认采样比例是1，配置参数为 samplingRatio
     val sampled: Dataset[String] = JsonUtils.sample(json, parsedOptions)
     val rdd: RDD[UTF8String] = sampled.queryExecution.toRdd.map(_.getUTF8String(0))
+//    开始推断类型
     JsonInferSchema.infer(rdd, parsedOptions, CreateJacksonParser.utf8String)
   }
 

@@ -37,6 +37,11 @@ object RuleExecutor {
   }
 }
 
+/*
+两个比较重要的实现类：
+Analyzer 使用SessionCatalog中的信息将UnresolvedAttribute和UnresolvedRelation转化为全类型定义的对象
+SparkOptimizer extend Optimizer 逻辑查询计划优化器
+ */
 abstract class RuleExecutor[TreeType <: TreeNode[_]] extends Logging {
 
   /**

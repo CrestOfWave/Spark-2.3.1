@@ -24,6 +24,9 @@ import org.apache.spark.sql.execution.datasources.PruneFileSourcePartitions
 import org.apache.spark.sql.execution.datasources.v2.PushDownOperatorsToDataSource
 import org.apache.spark.sql.execution.python.ExtractPythonUDFFromAggregate
 
+/*
+BaseSessionStateBuilder 里使用
+ */
 class SparkOptimizer(
     catalog: SessionCatalog,
     experimentalMethods: ExperimentalMethods)

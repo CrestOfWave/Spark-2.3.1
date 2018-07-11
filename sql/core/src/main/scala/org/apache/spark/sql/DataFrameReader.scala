@@ -431,7 +431,7 @@ class DataFrameReader private[sql](sparkSession: SparkSession) extends Logging {
    *
    * Unless the schema is specified using `schema` function, this function goes through the
    * input once to determine the input schema.
-   *
+   *如果schema信息没有用schema函数指定，那么该函数会根据输入来推断输入的schema信息
    * @param jsonDataset input Dataset with one JSON object per record
    * @since 2.2.0
    */
@@ -442,6 +442,7 @@ class DataFrameReader private[sql](sparkSession: SparkSession) extends Logging {
       sparkSession.sessionState.conf.columnNameOfCorruptRecord)
 
     val schema = userSpecifiedSchema.getOrElse {
+//      推断输入的schema，这个时候实际上很浪费性能的
       TextInputJsonDataSource.inferFromDataset(jsonDataset, parsedOptions)
     }
 
