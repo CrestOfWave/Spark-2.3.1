@@ -38,8 +38,10 @@ Running `sql/create-docs.sh` generates SQL documentation for built-in functions 
 ------
 
 
-如果使用选择使用SQL进行查询，首先需要将SQL解析成spark中的抽象语法树（AST）。在spark中是借助开源的antlr4库来解析的。Spark SQL的语法规则文件是：SqlBase.g4。该文件以及生成的相关文件截图如下。
+如果选择使用SQL进行查询，首先需要将SQL解析成spark中的抽象语法树（AST）。在spark中是借助开源的antlr4库来解析的。
+Spark SQL的语法规则文件是：SqlBase.g4。
 
+![image](https://github.com/CrestOfWave/Spark-2.3.1/blob/master/sql/SparkSqlparser.jpg)
 
 
 在生成的文件中SqlBaseBaseListener和SqlBaseBaseVistor分别代表两种遍历AST的方法，在spark中主要用了visitor模式。
