@@ -261,8 +261,8 @@ def compile(code: CodeAndComment): (GeneratedClass, Int) = try {
       })
 ```
 localcache的特点就是，调用cache.get,会有以下动作：
-- 1，存在，就直接家在
-- 1，不存在就调用cacheloader的load方法生成，然后会将生成的内容加入cache
+- 1，存在，就直接加载
+- 2，不存在就调用cacheloader的load方法生成，并且会将生成的内容加入cache
 
 正在source编译为java class方法的入口是doCompile(code)：
 ```$xslt
