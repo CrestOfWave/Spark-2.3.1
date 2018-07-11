@@ -48,9 +48,8 @@ Spark SQL的语法规则文件是：SqlBase.g4。
 
 接下来，将看一下spark中，当使用spark.sql("select *** from ...")时，sql怎么解析成spark内部的AST的？
 
-1，用户调用的spark.sql的入口是sparkSession中sql函数，该函数最终返回DataFrame（DataSet[Row]），sql的解析的过程主要是在
+1，用户调用的spark.sql的入口是sparkSession中sql函数，该函数最终返回DataFrame（DataSet[Row]），sql的解析的过程主要是在sessionState.sqlParser.parsePlan(sqlText)中发生的。
 ```
-sessionState.sqlParser.parsePlan(sqlText)中发生的。
 def sql(sqlText: String): DataFrame = {
   Dataset.ofRows(self, sessionState.sqlParser.parsePlan(sqlText))
 }
@@ -67,12 +66,54 @@ override def parsePlan(sqlText: String): LogicalPlan = parse(sqlText) { parser =
 }
 ```
 3，在parse函数中，首先构造SqlBaseLexer词法分析器，接着构造Token流，最终SqlBaseParser对象，然后一次尝试用不同的模式去进行解析。最终将执行parsePlan中传入的函数。
+```$xslt
+ protected def parse[T](command: String)(toResult: SqlBaseParser => T): T = {
+    logDebug(s"Parsing command: $command")
 
+    val lexer = new SqlBaseLexer(new UpperCaseCharStream(CharStreams.fromString(command)))
+    lexer.removeErrorListeners()
+    lexer.addErrorListener(ParseErrorListener)
+
+    val tokenStream = new CommonTokenStream(lexer)
+    val parser = new SqlBaseParser(tokenStream)
+    parser.addParseListener(PostProcessor)
+    parser.removeErrorListeners()
+    parser.addErrorListener(ParseErrorListener)
+
+    try {
+      try {
+        // first, try parsing with potentially faster SLL mode
+        parser.getInterpreter.setPredictionMode(PredictionMode.SLL)
+        toResult(parser)
+      }
+      catch {
+        case e: ParseCancellationException =>
+          // if we fail, parse with LL mode
+          tokenStream.seek(0) // rewind input stream
+          parser.reset()
+
+          // Try Again.
+          parser.getInterpreter.setPredictionMode(PredictionMode.LL)
+          toResult(parser)
+      }
+    }
+    catch {
+      case e: ParseException if e.command.isDefined =>
+        throw e
+      case e: ParseException =>
+        throw e.withCommand(command)
+      case e: AnalysisException =>
+        val position = Origin(e.line, e.startPosition)
+        throw new ParseException(Option(command), e.message, position, position)
+    }
+  }
+}
+```
 
 
 4，在步骤2中，astBuilder是SparkSqlAstBuilder的实例，在将Antlr中的匹配树转换成unresolved logical plan中，它起着桥梁作用。
-```
 astBuilder.visitSingleStatement使用visitor模式，开始匹配SqlBase.g4中sql的入口匹配规则：
+```
 singleStatement
  : statement EOF
  ;

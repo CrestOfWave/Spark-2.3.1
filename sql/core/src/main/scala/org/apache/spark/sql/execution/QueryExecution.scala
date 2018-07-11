@@ -38,6 +38,9 @@ import org.apache.spark.util.Utils
  *
  * While this is not a public class, we should avoid changing the function names for the sake of
  * changing them, because a lot of developers use the feature for debugging.
+  *
+  * 使用spark做关系查询的主要工作流，设计允许开发这方便使用查询执行的中间语义。
+  * 然而这并不是一个开放的类，应该避免修改函数名，来修改他们，因为大量的开发者使用该特性进行debug
  */
 class QueryExecution(val sparkSession: SparkSession, val logical: LogicalPlan) {
 
