@@ -272,10 +272,10 @@ GenerateOrdering.generate(order, inputSchema)最终会跳转到GenerateOrdering�
     clazz.generate(ctx.references.toArray).asInstanceOf[BaseOrdering]
   }
 }
-```scala
+```
 
 其中CodeGenerator.compile(code)代码如下：
-```
+```scala
 def compile(code: CodeAndComment): (GeneratedClass, Int) = try {
     cache.get(code)
   } catch {
@@ -285,7 +285,7 @@ def compile(code: CodeAndComment): (GeneratedClass, Int) = try {
     case e @ (_: UncheckedExecutionException | _: ExecutionError) =>
       throw e.getCause
   }
-```scala
+```
 其中cache类型是localcache的定义如下：
 ```scala
   private val cache = CacheBuilder.newBuilder()
