@@ -49,13 +49,14 @@ Spark SQL的语法规则文件是：SqlBase.g4。
 接下来，将看一下spark中，当使用spark.sql("select *** from ...")时，sql怎么解析成spark内部的AST的？
 
 1，用户调用的spark.sql的入口是sparkSession中sql函数，该函数最终返回DataFrame（DataSet[Row]），sql的解析的过程主要是在sessionState.sqlParser.parsePlan(sqlText)中发生的。
-```
+```scala
+
 def sql(sqlText: String): DataFrame = {
   Dataset.ofRows(self, sessionState.sqlParser.parsePlan(sqlText))
 }
 ```
 2，调用到parsePlan，将调用parse函数，传入的两个参数分为：sql语句，sqlBaseParse到LogicalPlan的一个函数。
-```
+```scala
 override def parsePlan(sqlText: String): LogicalPlan = parse(sqlText) { parser =>
   astBuilder.visitSingleStatement(parser.singleStatement()) match {
     case plan: LogicalPlan => plan
@@ -66,7 +67,7 @@ override def parsePlan(sqlText: String): LogicalPlan = parse(sqlText) { parser =
 }
 ```
 3，在parse函数中，首先构造SqlBaseLexer词法分析器，接着构造Token流，最终SqlBaseParser对象，然后一次尝试用不同的模式去进行解析。最终将执行parsePlan中传入的函数。
-```$xslt
+```scala
  protected def parse[T](command: String)(toResult: SqlBaseParser => T): T = {
     logDebug(s"Parsing command: $command")
 
@@ -113,28 +114,28 @@ override def parsePlan(sqlText: String): LogicalPlan = parse(sqlText) { parser =
 
 4，在步骤2中，astBuilder是SparkSqlAstBuilder的实例，在将Antlr中的匹配树转换成unresolved logical plan中，它起着桥梁作用。
 astBuilder.visitSingleStatement使用visitor模式，开始匹配SqlBase.g4中sql的入口匹配规则：
-```
+```scala
 singleStatement
  : statement EOF
  ;
 ```
  
 递归的遍历statement，以及其后的各个节点。在匹配过程中，碰到叶子节点，就将构造Logical Plan中对应的TreeNode。如当匹配到
-```
+```scala
 singleTableIdentifier
  : tableIdentifier EOF
  ;
  
 ```
 规则时(单表的标识符)。即调用的函数如下：
-```
+```scala
 override def visitSingleTableIdentifier(
     ctx: SingleTableIdentifierContext): TableIdentifier = withOrigin(ctx) {
   visitTableIdentifier(ctx.tableIdentifier)
 }
 ```
 可以看到将递归遍历对应的tableIdentifier，tableIdentifier的定义和遍历规则如下：
-```
+```scala
 tableIdentifier
  : (db=identifier '.')? table=identifier
  ;
@@ -159,7 +160,7 @@ codegen技术是用scala的字符串插值特性生成源码，然后使用Janin
 
 本小结是讲codegen的过程，以SortExec为例，我们可以查看其具体执行的方法，doExecutor
 
-```$xslt
+```scala
 
   protected override def doExecute(): RDD[InternalRow] = {
     val peakMemory = longMetric("peakMemory")
@@ -185,7 +186,7 @@ codegen技术是用scala的字符串插值特性生成源码，然后使用Janin
   }
 ```
 这个里面最重要的方法是createSorter,我们进入查看，可见其代码如下：
-```
+```scala
  def createSorter(): UnsafeExternalRowSorter = {
  codegen的具体位置
     val ordering = newOrdering(sortOrder, output)
@@ -223,7 +224,7 @@ codegen技术是用scala的字符串插值特性生成源码，然后使用Janin
 ```
 codegen的入口就是，newOrdering(sortOrder, output)->GenerateOrdering.generate(order, inputSchema),进入
 GenerateOrdering.generate(order, inputSchema)最终会跳转到GenerateOrdering的create(canonicalize(expressions))，
-```
+```scala
   /**
    * Creates a code gen ordering for sorting this schema, in ascending order.
    */
@@ -234,7 +235,7 @@ GenerateOrdering.generate(order, inputSchema)最终会跳转到GenerateOrdering�
   }
 ```
 下面，就是codegen的过程
-```
+```scala
   protected def create(ordering: Seq[SortOrder]): BaseOrdering = {
     val ctx = newCodeGenContext()
     val comparisons = genComparisons(ctx, ordering)
@@ -271,7 +272,7 @@ GenerateOrdering.generate(order, inputSchema)最终会跳转到GenerateOrdering�
     clazz.generate(ctx.references.toArray).asInstanceOf[BaseOrdering]
   }
 }
-```
+```scala
 
 其中CodeGenerator.compile(code)代码如下：
 ```
@@ -284,9 +285,9 @@ def compile(code: CodeAndComment): (GeneratedClass, Int) = try {
     case e @ (_: UncheckedExecutionException | _: ExecutionError) =>
       throw e.getCause
   }
-```
+```scala
 其中cache类型是localcache的定义如下：
-```$xslt
+```scala
   private val cache = CacheBuilder.newBuilder()
     .maximumSize(100)
     .build(
@@ -308,7 +309,7 @@ localcache的特点就是，调用cache.get,会有以下动作：
 - 2，不存在就调用cacheloader的load方法生成，并且会将生成的内容加入cache
 
 正在source编译为java class方法的入口是doCompile(code)：
-```$xslt
+```scala
  /**
    * Compile the Java source code into a Java class, using Janino.
    */
