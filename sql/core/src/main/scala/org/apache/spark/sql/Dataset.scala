@@ -3243,6 +3243,7 @@ class Dataset[T] private[sql](
   /**
    * Wrap a Dataset action to track the QueryExecution and time cost, then report to the
    * user-registered callback functions.
+    * 封装一个Dataset，主要是跟踪QueryExecution和时间消耗
    */
   private def withAction[U](name: String, qe: QueryExecution)(action: SparkPlan => U) = {
     try {

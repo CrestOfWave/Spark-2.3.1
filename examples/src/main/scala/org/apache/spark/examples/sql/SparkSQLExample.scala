@@ -176,6 +176,7 @@ object SparkSQLExample {
     val path = "examples/src/main/resources/people.json"
     val peopleDS = spark.read.json(path).as[Person]
     peopleDS.show()
+    peopleDS.head(1)
     // +----+-------+
     // | age|   name|
     // +----+-------+

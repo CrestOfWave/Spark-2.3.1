@@ -55,19 +55,23 @@ class QueryExecution(val sparkSession: SparkSession, val logical: LogicalPlan) {
     }
   }
 
+//  解析逻辑计划为解析过的逻辑计划
   lazy val analyzed: LogicalPlan = {
     SparkSession.setActiveSession(sparkSession)
     sparkSession.sessionState.analyzer.executeAndCheck(logical)
   }
 
+//  使用缓存的数据
   lazy val withCachedData: LogicalPlan = {
     assertAnalyzed()
     assertSupported()
     sparkSession.sharedState.cacheManager.useCachedData(analyzed)
   }
 
+//  优化逻辑执行计划
   lazy val optimizedPlan: LogicalPlan = sparkSession.sessionState.optimizer.execute(withCachedData)
 
+//  生成物理执行计划 BaseSessionStateBuilder 内部构建SparkPlaner，并生成传递给 SessionState
   lazy val sparkPlan: SparkPlan = {
     SparkSession.setActiveSession(sparkSession)
     // TODO: We use next(), i.e. take the first plan returned by the planner, here for now,

@@ -150,6 +150,171 @@ override def visitTableIdentifier(
 可以看到当匹配到tableIdentifier，将直接生成TableIdentifier对象，而该对象是TreeNode的一种。
 经过类似以上的过程，匹配结束后整个spark内部的抽象语法树也就建立起来了。
 
+### 逻辑执行计划到物理计划的生成过程
+我们这个过程主要是以Dataset的head（n）方法为例。head(n)方法代码如下：
+```scala
+  /**
+   * Returns the first `n` rows.
+   *
+   * @note this method should only be used if the resulting array is expected to be small, as
+   * all the data is loaded into the driver's memory.
+   *
+   * @group action
+   * @since 1.6.0
+   */
+  def head(n: Int): Array[T] = withAction("head", limit(n).queryExecution)(collectFromPlan)
+```
+其实，实际上他是利用limit方法构建了一个Dataset，然后获取queryExecution，再获取executedPlan，给collectFromPlan。这块代码如下：
+```scala
+limit(n).queryExecution
+
+  * Returns a new Dataset by taking the first `n` rows. The difference between this function
+   * and `head` is that `head` is an action and returns an array (by triggering query execution)
+   * while `limit` returns a new Dataset.
+   *
+   * @group typedrel
+   * @since 2.0.0
+   */
+  def limit(n: Int): Dataset[T] = withTypedPlan {
+    Limit(Literal(n), planWithBarrier)
+  }
+  
+  /** A convenient function to wrap a logical plan and produce a Dataset. */
+    @inline private def withTypedPlan[U : Encoder](logicalPlan: LogicalPlan): Dataset[U] = {
+      Dataset(sparkSession, logicalPlan)
+    }
+
+```
+head（n）实现处withAction代码如下：
+```scala
+/**
+   * Wrap a Dataset action to track the QueryExecution and time cost, then report to the
+   * user-registered callback functions.
+    * 封装一个Dataset，主要是跟踪QueryExecution和时间消耗
+   */
+  private def withAction[U](name: String, qe: QueryExecution)(action: SparkPlan => U) = {
+    try {
+      qe.executedPlan.foreach { plan =>
+        plan.resetMetrics()
+      }
+      val start = System.nanoTime()
+      val result = SQLExecution.withNewExecutionId(sparkSession, qe) {
+        action(qe.executedPlan)
+      }
+      val end = System.nanoTime()
+      sparkSession.listenerManager.onSuccess(name, qe, end - start)
+      result
+    } catch {
+      case e: Exception =>
+        sparkSession.listenerManager.onFailure(name, qe, e)
+        throw e
+    }
+  }
+```
+这块代码调用逻辑有点绕吧，实际上就是scala的编程风格。collectFromPlan该段代码不去深入，先说如何从物理计划到逻辑计划的。
+
+在withAction里面，qe.executedPlan这实际上就是逻辑执行计划到物理执行计划转换的入口。qe就是QueryExecution。
+执行计划相关的都是lazy形式的变量，在实际调用的时候才会真正实例化。
+
+QueryExecution类中重点关注的是这些lazy变量，只会在executedPlan或者tordd调用的时候才会真正执行实例化。
+```scala
+/**
+ * The primary workflow for executing relational queries using Spark.  Designed to allow easy
+ * access to the intermediate phases of query execution for developers.
+ *
+ * While this is not a public class, we should avoid changing the function names for the sake of
+ * changing them, because a lot of developers use the feature for debugging.
+  *
+  * 使用spark做关系查询的主要工作流，设计允许开发这方便使用查询执行的中间语义。
+  * 然而这并不是一个开放的类，应该避免修改函数名，来修改他们，因为大量的开发者使用该特性进行debug
+ */
+class QueryExecution(val sparkSession: SparkSession, val logical: LogicalPlan) {
+
+  // TODO: Move the planner an optimizer into here from SessionState.
+  protected def planner = sparkSession.sessionState.planner
+
+  def assertAnalyzed(): Unit = analyzed
+
+  def assertSupported(): Unit = {
+    if (sparkSession.sessionState.conf.isUnsupportedOperationCheckEnabled) {
+      UnsupportedOperationChecker.checkForBatch(analyzed)
+    }
+  }
+
+//  解析逻辑计划为解析过的逻辑计划
+  lazy val analyzed: LogicalPlan = {
+    SparkSession.setActiveSession(sparkSession)
+    sparkSession.sessionState.analyzer.executeAndCheck(logical)
+  }
+
+//  使用缓存的数据
+  lazy val withCachedData: LogicalPlan = {
+    assertAnalyzed()
+    assertSupported()
+    sparkSession.sharedState.cacheManager.useCachedData(analyzed)
+  }
+
+//  优化逻辑执行计划
+  lazy val optimizedPlan: LogicalPlan = sparkSession.sessionState.optimizer.execute(withCachedData)
+
+//  生成物理执行计划 BaseSessionStateBuilder 内部构建SparkPlaner，并生成传递给 SessionState
+  lazy val sparkPlan: SparkPlan = {
+    SparkSession.setActiveSession(sparkSession)
+    // TODO: We use next(), i.e. take the first plan returned by the planner, here for now,
+    //       but we will implement to choose the best plan.
+    planner.plan(ReturnAnswer(optimizedPlan)).next()
+  }
+
+  // executedPlan should not be used to initialize any SparkPlan. It should be
+  // only used for execution.
+  lazy val executedPlan: SparkPlan = prepareForExecution(sparkPlan)
+
+  /** Internal version of the RDD. Avoids copies and has no schema */
+  lazy val toRdd: RDD[InternalRow] = executedPlan.execute()
+```
+
+物理执行计划实际上是通过Plannner.plan过程生成的，也即是QueryPlanner
+```scala
+def plan(plan: LogicalPlan): Iterator[PhysicalPlan] = {
+    // Obviously a lot to do here still...
+
+    // 收集候选物理计划.
+    val candidates = strategies.iterator.flatMap(_(plan))
+
+    // The candidates may contain placeholders marked as [[planLater]],
+    // so try to replace them by their child plans.
+    // 替换
+    val plans = candidates.flatMap { candidate =>
+      val placeholders = collectPlaceholders(candidate)
+
+      if (placeholders.isEmpty) {
+        // Take the candidate as is because it does not contain placeholders.
+        Iterator(candidate)
+      } else {
+        // Plan the logical plan marked as [[planLater]] and replace the placeholders.
+        placeholders.iterator.foldLeft(Iterator(candidate)) {
+          case (candidatesWithPlaceholders, (placeholder, logicalPlan)) =>
+            // Plan the logical plan for the placeholder.
+            val childPlans = this.plan(logicalPlan)
+
+            candidatesWithPlaceholders.flatMap { candidateWithPlaceholders =>
+              childPlans.map { childPlan =>
+                // Replace the placeholder by the child plan
+                candidateWithPlaceholders.transformUp {
+                  case p if p == placeholder => childPlan
+                }
+              }
+            }
+        }
+      }
+    }
+
+    val pruned = prunePlans(plans)
+    assert(pruned.hasNext, s"No plan for $plan")
+    pruned
+  }
+```
+
 ### codegen过程
 
 ------
