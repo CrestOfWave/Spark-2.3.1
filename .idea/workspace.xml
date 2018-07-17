@@ -3,12 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ae70ffe7-fe41-4c72-8fa4-08d12a9d7985" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" beforeDir="false" afterPath="$PROJECT_DIR$/examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/src/main/scala/org/apache/spark/examples/streaming/DirectKafkaWordCount.scala" beforeDir="false" afterPath="$PROJECT_DIR$/examples/src/main/scala/org/apache/spark/examples/streaming/DirectKafkaWordCount.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sql/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/sql/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/Dataset.scala" beforeDir="false" afterPath="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/Dataset.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/QueryExecution.scala" beforeDir="false" afterPath="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/QueryExecution.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/internal/SessionState.scala" beforeDir="false" afterPath="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/internal/SessionState.scala" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/common/network-common/target/" />
     <ignored path="$PROJECT_DIR$/external/kafka-0-10-sql/target/" />
@@ -83,8 +78,8 @@
       <file leaf-file-name="QueryPlanner.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sql/catalyst/src/main/scala/org/apache/spark/sql/catalyst/planning/QueryPlanner.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="696">
-              <caret line="95" lean-forward="true" selection-start-line="58" selection-start-column="2" selection-end-line="95" />
+            <state relative-caret-position="51">
+              <caret line="54" column="19" selection-start-line="54" selection-start-column="19" selection-end-line="54" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -92,8 +87,8 @@
       <file leaf-file-name="SparkPlanner.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/SparkPlanner.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="42" column="12" selection-start-line="42" selection-start-column="12" selection-end-line="42" selection-end-column="12" />
+            <state relative-caret-position="360">
+              <caret line="45" column="16" selection-start-line="35" selection-start-column="2" selection-end-line="45" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -101,8 +96,8 @@
       <file leaf-file-name="SparkStrategies.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/SparkStrategies.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="107">
-              <caret line="347" column="11" selection-start-line="347" selection-start-column="11" selection-end-line="347" selection-end-column="11" />
+            <state relative-caret-position="207">
+              <caret line="453" column="2" selection-start-line="453" selection-start-column="2" selection-end-line="551" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -111,13 +106,15 @@
         <entry file="file://$PROJECT_DIR$/sql/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="206">
-                <caret line="285" column="9" selection-start-line="285" selection-start-column="9" selection-end-line="285" selection-end-column="9" />
+              <first_editor relative-caret-position="427">
+                <caret line="439" lean-forward="true" selection-start-line="439" selection-end-line="439" />
                 <folding>
                   <element signature="n#sql#0" expanded="true" />
                   <element signature="n#parsePlan#0" expanded="true" />
                   <element signature="n#visitSingleTableIdentifier#0" expanded="true" />
                   <element signature="n#withAction#0" expanded="true" />
+                  <element signature="n#plan#0" expanded="true" />
+                  <element signature="n#strategies#0" expanded="true" />
                   <element signature="n#compile#0" expanded="true" />
                 </folding>
               </first_editor>
@@ -253,11 +250,10 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="115" />
-    <option name="y" value="-1035" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="43" />
     <option name="width" value="1440" />
-    <option name="height" value="987" />
+    <option name="height" value="783" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -420,7 +416,7 @@
       <workItem from="1531643638296" duration="1770000" />
       <workItem from="1531645964923" duration="3461000" />
       <workItem from="1531666338411" duration="859000" />
-      <workItem from="1531722875349" duration="7894000" />
+      <workItem from="1531722875349" duration="8888000" />
     </task>
     <task id="LOCAL-00001" summary="修改README.md">
       <created>1531193367482</created>
@@ -611,11 +607,18 @@
       <option name="project" value="LOCAL" />
       <updated>1531661856387</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="small changes">
+      <created>1531743135613</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1531743135613</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56605000" />
+    <option name="totallyTimeSpent" value="57599000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -627,7 +630,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="115" y="-1035" width="1440" height="987" extended-state="1" />
+    <frame x="0" y="23" width="1440" height="797" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -639,7 +642,7 @@
       <window_info id="Designer" order="3" />
       <window_info anchor="right" id="Database" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="ANTLR Preview" order="7" />
-      <window_info anchor="right" id="Structure" order="10" sideWeight="0.50142854" side_tool="true" weight="0.25894135" />
+      <window_info active="true" anchor="right" id="Structure" order="10" sideWeight="0.50142854" side_tool="true" visible="true" weight="0.25894135" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="4" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
@@ -1045,37 +1048,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/SparkStrategies.scala">
+    <entry file="file://$PROJECT_DIR$/sql/catalyst/src/main/scala/org/apache/spark/sql/catalyst/planning/QueryPlanner.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="107">
-          <caret line="347" column="11" selection-start-line="347" selection-start-column="11" selection-end-line="347" selection-end-column="11" />
+        <state relative-caret-position="51">
+          <caret line="54" column="19" selection-start-line="54" selection-start-column="19" selection-end-line="54" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/SparkPlanner.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="42" column="12" selection-start-line="42" selection-start-column="12" selection-end-line="42" selection-end-column="12" />
+        <state relative-caret-position="360">
+          <caret line="45" column="16" selection-start-line="35" selection-start-column="2" selection-end-line="45" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sql/catalyst/src/main/scala/org/apache/spark/sql/catalyst/planning/QueryPlanner.scala">
+    <entry file="file://$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/SparkStrategies.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="696">
-          <caret line="95" lean-forward="true" selection-start-line="58" selection-start-column="2" selection-end-line="95" />
+        <state relative-caret-position="207">
+          <caret line="453" column="2" selection-start-line="453" selection-start-column="2" selection-end-line="551" selection-end-column="3" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sql/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="206">
-            <caret line="285" column="9" selection-start-line="285" selection-start-column="9" selection-end-line="285" selection-end-column="9" />
+          <first_editor relative-caret-position="427">
+            <caret line="439" lean-forward="true" selection-start-line="439" selection-end-line="439" />
             <folding>
               <element signature="n#sql#0" expanded="true" />
               <element signature="n#parsePlan#0" expanded="true" />
               <element signature="n#visitSingleTableIdentifier#0" expanded="true" />
               <element signature="n#withAction#0" expanded="true" />
+              <element signature="n#plan#0" expanded="true" />
+              <element signature="n#strategies#0" expanded="true" />
               <element signature="n#compile#0" expanded="true" />
             </folding>
           </first_editor>
