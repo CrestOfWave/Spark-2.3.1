@@ -1,68 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ae70ffe7-fe41-4c72-8fa4-08d12a9d7985" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sql/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/sql/README.md" afterDir="false" />
+    <list default="true" id="1a6da97f-cc8d-4ce6-8fdd-557e3bc5d80d" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/common/network-common/target/" />
-    <ignored path="$PROJECT_DIR$/external/kafka-0-10-sql/target/" />
-    <ignored path="$PROJECT_DIR$/common/sketch/target/" />
-    <ignored path="$PROJECT_DIR$/target/" />
-    <ignored path="$PROJECT_DIR$/external/flume/target/" />
-    <ignored path="$PROJECT_DIR$/resource-managers/mesos/target/" />
-    <ignored path="$PROJECT_DIR$/tools/target/" />
-    <ignored path="$PROJECT_DIR$/external/kafka-0-8-assembly/target/" />
-    <ignored path="$PROJECT_DIR$/external/kafka-0-10-assembly/target/" />
-    <ignored path="$PROJECT_DIR$/mllib-local/target/" />
-    <ignored path="$PROJECT_DIR$/external/flume-assembly/target/" />
-    <ignored path="$PROJECT_DIR$/external/docker-integration-tests/target/" />
-    <ignored path="$PROJECT_DIR$/mllib/target/" />
-    <ignored path="$PROJECT_DIR$/external/kinesis-asl/target/" />
-    <ignored path="$PROJECT_DIR$/external/spark-ganglia-lgpl/target/" />
-    <ignored path="$PROJECT_DIR$/common/tags/target/" />
-    <ignored path="$PROJECT_DIR$/common/unsafe/target/" />
-    <ignored path="$PROJECT_DIR$/sql/core/target/" />
-    <ignored path="$PROJECT_DIR$/assembly/target/" />
-    <ignored path="$PROJECT_DIR$/hadoop-cloud/target/" />
-    <ignored path="$PROJECT_DIR$/sql/hive/target/" />
-    <ignored path="$PROJECT_DIR$/external/kinesis-asl-assembly/target/" />
-    <ignored path="$PROJECT_DIR$/resource-managers/yarn/target/" />
-    <ignored path="$PROJECT_DIR$/launcher/target/" />
-    <ignored path="$PROJECT_DIR$/common/network-yarn/target/" />
-    <ignored path="$PROJECT_DIR$/common/kvstore/target/" />
-    <ignored path="$PROJECT_DIR$/core/target/" />
-    <ignored path="$PROJECT_DIR$/external/kafka-0-10/target/" />
-    <ignored path="$PROJECT_DIR$/streaming/target/" />
-    <ignored path="$PROJECT_DIR$/external/flume-sink/target/" />
-    <ignored path="$PROJECT_DIR$/common/network-shuffle/target/" />
-    <ignored path="$PROJECT_DIR$/sql/catalyst/target/" />
-    <ignored path="$PROJECT_DIR$/external/kafka-0-8/target/" />
-    <ignored path="$PROJECT_DIR$/examples/target/" />
-    <ignored path="$PROJECT_DIR$/sql/hive-thriftserver/target/" />
-    <ignored path="$PROJECT_DIR$/repl/target/" />
-    <ignored path="$PROJECT_DIR$/graphx/target/" />
-    <ignored path="$PROJECT_DIR$/resource-managers/kubernetes/core/target/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="DatabaseView">
-    <option name="SHOW_INTERMEDIATE" value="true" />
-    <option name="GROUP_DATA_SOURCES" value="true" />
-    <option name="GROUP_SCHEMA" value="true" />
-    <option name="GROUP_CONTENTS" value="false" />
-    <option name="SORT_POSITIONED" value="false" />
-    <option name="SHOW_EMPTY_GROUPS" value="false" />
-    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
-    <option name="HIDDEN_KINDS">
-      <set />
-    </option>
-    <expand />
-    <select />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
@@ -97,7 +43,7 @@
         <entry file="file://$PROJECT_DIR$/external/kafka-0-10/src/main/scala/org/apache/spark/streaming/kafka010/DirectKafkaInputDStream.scala">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="112">
-              <caret line="271" column="85" lean-forward="true" selection-start-line="271" selection-start-column="85" selection-end-line="271" selection-end-column="85" />
+              <caret line="271" column="85" selection-start-line="271" selection-start-column="85" selection-end-line="271" selection-end-column="85" />
             </state>
           </provider>
         </entry>
@@ -111,12 +57,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sql/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="272">
-                <caret line="438" column="48" selection-start-line="438" selection-start-column="48" selection-end-line="438" selection-end-column="48" />
+              <first_editor relative-caret-position="4439">
+                <caret line="438" column="39" selection-start-line="438" selection-start-column="39" selection-end-line="438" selection-end-column="39" />
                 <folding>
                   <element signature="n#sql#0" expanded="true" />
                   <element signature="n#parsePlan#0" expanded="true" />
@@ -132,6 +78,15 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="8" column="4" lean-forward="true" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="SparkListener.scala" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/main/scala/org/apache/spark/scheduler/SparkListener.scala">
           <provider selected="true" editor-type-id="text-editor">
@@ -143,87 +98,12 @@
       </file>
     </leaf>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>with</find>
-      <find>userSpecifiedSchema</find>
-      <find>isSorted</find>
-      <find>supportCodegen</find>
-      <find>statement</find>
-      <find>tableIdentifier</find>
-      <find>integral</find>
-      <find>derivative</find>
-    </findStrings>
-  </component>
   <component name="Git.Settings">
     <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/docs/api.md" />
-        <option value="$PROJECT_DIR$/examples/src/main/scala/org/apache/spark/examples/HdfsTest.scala" />
-        <option value="$PROJECT_DIR$/scalastyle-config.xml" />
-        <option value="$PROJECT_DIR$/NOTICE" />
-        <option value="$PROJECT_DIR$/appveyor.yml" />
-        <option value="$PROJECT_DIR$/.gitattributes" />
-        <option value="$PROJECT_DIR$/.travis.yml" />
-        <option value="$PROJECT_DIR$/CONTRIBUTING.md" />
-        <option value="$PROJECT_DIR$/LICENSE" />
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/tools/src/main/scala/org/apache/spark/tools/GenerateMIMAIgnore.scala" />
-        <option value="$PROJECT_DIR$/streaming/src/main/scala/org/apache/spark/status/api/v1/streaming/api.scala" />
-        <option value="$PROJECT_DIR$/sbin/start-all.sh" />
-        <option value="$PROJECT_DIR$/resource-managers/yarn/src/main/scala/org/apache/spark/deploy/yarn/config.scala" />
-        <option value="$PROJECT_DIR$/repl/pom.xml" />
-        <option value="$PROJECT_DIR$/python/README.md" />
-        <option value="$PROJECT_DIR$/mllib-local/src/main/scala/org/apache/spark/ml/linalg/Matrices.scala" />
-        <option value="$PROJECT_DIR$/mllib-local/src/test/scala/org/apache/spark/ml/util/TestingUtils.scala" />
-        <option value="$PROJECT_DIR$/mllib/src/test/scala/org/apache/spark/mllib/util/NumericParserSuite.scala" />
-        <option value="$PROJECT_DIR$/licenses/LICENSE-dagre-d3.txt" />
-        <option value="$PROJECT_DIR$/launcher/src/test/java/org/apache/spark/launcher/BaseSuite.java" />
-        <option value="$PROJECT_DIR$/hadoop-cloud/pom.xml" />
-        <option value="$PROJECT_DIR$/external/kafka-0-10-sql/pom.xml" />
-        <option value="$PROJECT_DIR$/graphx/pom.xml" />
-        <option value="$PROJECT_DIR$/project/plugins.sbt" />
-        <option value="$PROJECT_DIR$/bin/spark-submit" />
-        <option value="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/datasources/DataSource.scala" />
-        <option value="$PROJECT_DIR$/sql/catalyst/src/main/scala/org/apache/spark/sql/catalyst/catalog/interface.scala" />
-        <option value="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/datasources/DataSourceStrategy.scala" />
-        <option value="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/SparkSession.scala" />
-        <option value="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/SparkSqlParser.scala" />
-        <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/sql/catalyst/src/main/scala/org/apache/spark/sql/catalyst/parser/AstBuilder.scala" />
-        <option value="$PROJECT_DIR$/sql/catalyst/src/main/scala/org/apache/spark/sql/catalyst/parser/LegacyTypeStringParser.scala" />
-        <option value="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/DataFrameReader.scala" />
-        <option value="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/datasources/json/JsonDataSource.scala" />
-        <option value="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/datasources/json/JsonInferSchema.scala" />
-        <option value="$PROJECT_DIR$/sql/catalyst/src/main/scala/org/apache/spark/sql/catalyst/rules/RuleExecutor.scala" />
-        <option value="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/SparkOptimizer.scala" />
-        <option value="$PROJECT_DIR$/sql/catalyst/src/main/scala/org/apache/spark/sql/catalyst/analysis/Analyzer.scala" />
-        <option value="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/internal/BaseSessionStateBuilder.scala" />
-        <option value="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/SparkStrategies.scala" />
-        <option value="$PROJECT_DIR$/streaming/src/main/scala/org/apache/spark/streaming/scheduler/RateController.scala" />
-        <option value="$PROJECT_DIR$/streaming/src/main/scala/org/apache/spark/streaming/scheduler/rate/PIDRateEstimator.scala" />
-        <option value="$PROJECT_DIR$/examples/src/main/scala/org/apache/spark/examples/streaming/DirectKafkaWordCount.scala" />
-        <option value="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/internal/SessionState.scala" />
-        <option value="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/execution/QueryExecution.scala" />
-        <option value="$PROJECT_DIR$/examples/src/main/scala/org/apache/spark/examples/sql/SparkSQLExample.scala" />
-        <option value="$PROJECT_DIR$/sql/core/src/main/scala/org/apache/spark/sql/Dataset.scala" />
-        <option value="$PROJECT_DIR$/external/kafka-0-10/src/main/scala/org/apache/spark/streaming/kafka010/DirectKafkaInputDStream.scala" />
-        <option value="$PROJECT_DIR$/sql/README.md" />
-      </list>
-    </option>
-  </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsFlowSettings">
-    <service-enabled>true</service-enabled>
-    <exe-path />
-    <other-services-enabled>true</other-services-enabled>
-    <auto-save>true</auto-save>
-  </component>
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
@@ -239,35 +119,13 @@
         <option name="lookForNested" value="true" />
       </MavenImportingSettings>
     </option>
-    <option name="enabledProfiles">
-      <list>
-        <option value="hive-thriftserver" />
-        <option value="flume" />
-        <option value="hive-provided" />
-        <option value="Windows" />
-        <option value="hive" />
-        <option value="kafka-0-8" />
-        <option value="hadoop-2.7" />
-        <option value="hadoop-2.6" />
-      </list>
-    </option>
-  </component>
-  <component name="MavenProjectNavigator">
-    <treeState>
-      <expand />
-      <select />
-    </treeState>
   </component>
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="19" />
-    <option name="y" value="63" />
-    <option name="width" value="1440" />
-    <option name="height" value="756" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -283,62 +141,11 @@
               <item name="spark-2.3.1" type="b2602c69:ProjectViewProjectNode" />
               <item name="spark-2.3.1" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="spark-2.3.1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spark-2.3.1" type="462c0819:PsiDirectoryNode" />
-              <item name="examples" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spark-2.3.1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spark-2.3.1" type="462c0819:PsiDirectoryNode" />
-              <item name="examples" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spark-2.3.1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spark-2.3.1" type="462c0819:PsiDirectoryNode" />
-              <item name="examples" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spark-2.3.1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spark-2.3.1" type="462c0819:PsiDirectoryNode" />
-              <item name="examples" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="scala" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spark-2.3.1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spark-2.3.1" type="462c0819:PsiDirectoryNode" />
-              <item name="examples" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="scala" type="462c0819:PsiDirectoryNode" />
-              <item name="examples" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spark-2.3.1" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spark-2.3.1" type="462c0819:PsiDirectoryNode" />
-              <item name="sql" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
     </panes>
-  </component>
-  <component name="PropertiesComponent">
-    <property name="SearchEverywhereHistoryKey" value="DirectKafkaInput&#9;FILE&#9;file:///opt/meitu/spark-2.3.1/external/kafka-0-10/src/main/scala/org/apache/spark/streaming/kafka010/DirectKafkaInputDStream.scala&#10;SparkLi&#9;null&#9;null&#10;pid&#9;FILE&#9;file:///opt/meitu/spark-2.3.1/streaming/src/main/scala/org/apache/spark/streaming/scheduler/rate/PIDRateEstimator.scala&#10;Base&#9;null&#9;null&#10;base&#9;null&#9;null&#10;spark&#9;FILE&#9;file:///opt/meitu/spark-2.3.1/sql/core/src/main/scala/org/apache/spark/sql/SparkSession.scala" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="File.Encoding" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -395,9 +202,6 @@
       <listeners />
     </configuration>
   </component>
-  <component name="StructureViewFactory">
-    <option name="ACTIVE_ACTIONS" value=",SCALA_SHOW_SCALATEST_TESTS,ALPHA_SORTER_IGNORING_TEST_NODES" />
-  </component>
   <component name="SvnConfiguration">
     <configuration>$USER_HOME$/.subversion</configuration>
   </component>
@@ -421,7 +225,7 @@
       <workItem from="1531722875349" duration="8988000" />
       <workItem from="1531904459971" duration="113000" />
       <workItem from="1531904763057" duration="1931000" />
-      <workItem from="1531965868312" duration="818000" />
+      <workItem from="1531965868312" duration="1717000" />
     </task>
     <task id="LOCAL-00001" summary="修改README.md">
       <created>1531193367482</created>
@@ -626,24 +430,28 @@
       <option name="project" value="LOCAL" />
       <updated>1531791414586</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="small changes">
+      <created>1531966781753</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1531966781753</updated>
+    </task>
+    <task id="LOCAL-00031" summary="small changes">
+      <created>1531967437736</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1531967437736</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="60561000" />
-  </component>
-  <component name="TodoView">
-    <todo-panel id="selected-file">
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
+    <option name="totallyTimeSpent" value="104000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="19" y="63" width="1440" height="756" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="Tool Output" order="7" />
@@ -665,8 +473,8 @@
       <window_info anchor="right" id="Capture Analysis" order="5" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49928468" weight="0.3195021" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49857143" visible="true" weight="0.21101573" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" sideWeight="0.49928468" visible="true" weight="0.31866464" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49857143" visible="true" weight="0.21101573" />
       <window_info anchor="right" id="Bean Validation" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Theme Preview" order="9" />
       <window_info id="Favorites" order="5" side_tool="true" />
@@ -709,9 +517,6 @@
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49857143" weight="0.2453505" />
     </layout-to-restore>
   </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
-  </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
@@ -722,13 +527,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="small changes" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/external/kafka-0-10/src/main/scala/org/apache/spark/streaming/kafka010/ConsumerStrategy.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="58" column="6" selection-start-line="58" selection-start-column="6" selection-end-line="58" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/apache/kafka/kafka-clients/0.10.0.1/kafka-clients-0.10.0.1-sources.jar!/org/apache/kafka/clients/consumer/KafkaConsumer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8035">
@@ -1061,7 +859,7 @@
     <entry file="file://$PROJECT_DIR$/external/kafka-0-10/src/main/scala/org/apache/spark/streaming/kafka010/DirectKafkaInputDStream.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="112">
-          <caret line="271" column="85" lean-forward="true" selection-start-line="271" selection-start-column="85" selection-end-line="271" selection-end-column="85" />
+          <caret line="271" column="85" selection-start-line="271" selection-start-column="85" selection-end-line="271" selection-end-column="85" />
         </state>
       </provider>
     </entry>
@@ -1075,8 +873,8 @@
     <entry file="file://$PROJECT_DIR$/sql/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="272">
-            <caret line="438" column="48" selection-start-line="438" selection-start-column="48" selection-end-line="438" selection-end-column="48" />
+          <first_editor relative-caret-position="4439">
+            <caret line="438" column="39" selection-start-line="438" selection-start-column="39" selection-end-line="438" selection-end-column="39" />
             <folding>
               <element signature="n#sql#0" expanded="true" />
               <element signature="n#parsePlan#0" expanded="true" />
@@ -1091,88 +889,12 @@
         </state>
       </provider>
     </entry>
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ArquillianSettingsConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="Copyright.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>1.8</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectJDKs.UI">
-        <settings>
-          <last-edited>1.8</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ScopeChooserConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="4" lean-forward="true" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>
