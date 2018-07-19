@@ -1,6 +1,11 @@
 浪尖带着你阅读spark源码
 
+### Spark Sql源码阅读
 1，[SparkSql源码阅读](https://github.com/CrestOfWave/Spark-2.3.1/blob/master/sql/README.md)
+
+
+### Spark Streaming源码阅读
+1，[动态发现新增分区](https://github.com/CrestOfWave/Spark-2.3.1/blob/master/streaming/DiscoverNewPartition.md)
 
 更多大数据文章请关注浪尖微信公众号：Spark学习技巧
 
