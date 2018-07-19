@@ -436,8 +436,8 @@ flatMap(_(plan))这句话实际上是调用每个策略，然后将逻辑执行�
     }
   }
 ```
-这个BasicOperators对象的apply方法就是一个模式匹配，由逻辑计划到物理执行计划。
-
+这个BasicOperators对象的apply方法就是一个模式匹配，由表述了逻辑计划到物理执行计划的映射过程。
+下面，可以以SortExec为例讲解codeden过程
 
 ### codegen过程
 
