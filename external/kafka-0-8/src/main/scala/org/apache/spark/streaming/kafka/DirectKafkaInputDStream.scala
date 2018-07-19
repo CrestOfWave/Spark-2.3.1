@@ -125,6 +125,7 @@ class DirectKafkaInputDStream[
 
   @tailrec
   protected final def latestLeaderOffsets(retries: Int): Map[TopicAndPartition, LeaderOffset] = {
+//    可以看到的是用来指定获取最大偏移分区的列表还是只有currentOffsets，没有发现关于新增的分区的内容。
     val o = kc.getLatestLeaderOffsets(currentOffsets.keySet)
     // Either.fold would confuse @tailrec, do it manually
     if (o.isLeft) {
@@ -155,7 +156,9 @@ class DirectKafkaInputDStream[
   }
 
   override def compute(validTime: Time): Option[KafkaRDD[K, V, U, T, R]] = {
+//    改行代码会计算这个job，要消费的每个kafka分区的最大偏移
     val untilOffsets = clamp(latestLeaderOffsets(maxRetries))
+//    构建KafkaRDD，用指定的分区数和要消费的offset范围
     val rdd = KafkaRDD[K, V, U, T, R](
       context.sparkContext, kafkaParams, currentOffsets, untilOffsets, messageHandler)
 

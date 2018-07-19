@@ -180,11 +180,14 @@ private[spark] class DirectKafkaInputDStream[K, V](
   protected def latestOffsets(): Map[TopicPartition, Long] = {
     val c = consumer
     paranoidPoll(c)
+    // 获取所有的分区信息
     val parts = c.assignment().asScala
 
     // make sure new partitions are reflected in currentOffsets
+    // 做差获取新增的分区信息
     val newPartitions = parts.diff(currentOffsets.keySet)
     // position for new partitions determined by auto.offset.reset if no commit
+    // 新分区消费位置，没有记录的化是由auto.offset.reset决定
     currentOffsets = currentOffsets ++ newPartitions.map(tp => tp -> c.position(tp)).toMap
     // don't want to consume messages, so pause
     c.pause(newPartitions.asJava)
@@ -206,6 +209,7 @@ private[spark] class DirectKafkaInputDStream[K, V](
   }
 
   override def compute(validTime: Time): Option[KafkaRDD[K, V]] = {
+//    获取当前生成job，要用到的KafkaRDD每个分区最大消费偏移值
     val untilOffsets = clamp(latestOffsets())
     val offsetRanges = untilOffsets.map { case (tp, uo) =>
       val fo = currentOffsets(tp)
