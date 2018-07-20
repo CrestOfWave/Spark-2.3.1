@@ -62,7 +62,7 @@ import org.apache.spark.util._
 /**
  * Main entry point for Spark functionality. A SparkContext represents the connection to a Spark
  * cluster, and can be used to create RDDs, accumulators and broadcast variables on that cluster.
- *
+ * 仅一个SparkContext可以处于激活状态
  * Only one SparkContext may be active per JVM.  You must `stop()` the active SparkContext before
  * creating a new one.  This limitation may eventually be removed; see SPARK-2243 for more details.
  *
@@ -75,12 +75,14 @@ class SparkContext(config: SparkConf) extends Logging {
   private val creationSite: CallSite = Utils.getCallSite()
 
   // If true, log warnings instead of throwing exceptions when multiple SparkContexts are active
+//  概述下设置为true，可以允许同一个jvm有多个SparkContext。
   private val allowMultipleContexts: Boolean =
     config.getBoolean("spark.driver.allowMultipleContexts", false)
 
   // In order to prevent multiple SparkContexts from being active at the same time, mark this
   // context as having started construction.
   // NOTE: this must be placed at the beginning of the SparkContext constructor.
+//  为了避免多个SparkContexts在相同的时间被激活，就给当前SparkContext打上已经启动的标记
   SparkContext.markPartiallyConstructed(this, allowMultipleContexts)
 
   val startTime = System.currentTimeMillis()
@@ -1801,7 +1803,7 @@ class SparkContext(config: SparkConf) extends Logging {
 
   /**
    * Adds a JAR dependency for all tasks to be executed on this `SparkContext` in the future.
-   *
+   * 增加未来将要运行task的jar依赖。假如在运行期间新一个jar，只会在下一次taskset启动的时候生效。
    * If a jar is added during execution, it will not be available until the next TaskSet starts.
    *
    * @param path can be either a local file, a file in HDFS (or other Hadoop-supported filesystems),
