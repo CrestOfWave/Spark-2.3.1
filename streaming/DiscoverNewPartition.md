@@ -1,3 +1,5 @@
+[TOC]
+### 简介
 本文主要是讲解Spark Streaming与kafka结合的新增分区检测的问题。读本文前关于kafka与Spark Streaming结合问题请参考下面两篇文章：
 
 1，[必读：再讲Spark与kafka 0.8.2.1+整合](https://mp.weixin.qq.com/s/FYw7dtQLLukAmkLqmQ0-Vg)

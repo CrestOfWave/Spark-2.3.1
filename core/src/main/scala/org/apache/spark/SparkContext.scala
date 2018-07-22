@@ -362,6 +362,7 @@ class SparkContext(config: SparkConf) extends Logging {
   }
 
   try {
+//    获取配置并且验证解析配置
     _conf = config.clone()
     _conf.validateSettings()
 
@@ -392,6 +393,7 @@ class SparkContext(config: SparkConf) extends Logging {
 
     _conf.set("spark.executor.id", SparkContext.DRIVER_IDENTIFIER)
 
+//    获取用户的jars和files
     _jars = Utils.getUserJars(_conf)
     _files = _conf.getOption("spark.files").map(_.split(",")).map(_.filter(_.nonEmpty))
       .toSeq.flatten
@@ -413,7 +415,7 @@ class SparkContext(config: SparkConf) extends Logging {
         None
       }
     }
-
+//    初始化SparkListener体系
     _listenerBus = new LiveListenerBus(_conf)
 
     // Initialize the app status store and listener before SparkEnv is created so that it gets
@@ -422,6 +424,7 @@ class SparkContext(config: SparkConf) extends Logging {
     listenerBus.addToStatusQueue(_statusStore.listener.get)
 
     // Create the Spark execution environment (cache, map output tracker, etc)
+//    创建Spark执行环境
     _env = createSparkEnv(_conf, isLocal, listenerBus)
     SparkEnv.set(_env)
 
@@ -431,6 +434,7 @@ class SparkContext(config: SparkConf) extends Logging {
       _conf.set("spark.repl.class.uri", replUri)
     }
 
+//    状态跟踪器
     _statusTracker = new SparkStatusTracker(this, _statusStore)
 
     _progressBar =
@@ -439,7 +443,7 @@ class SparkContext(config: SparkConf) extends Logging {
       } else {
         None
       }
-
+//    使能Sparkui
     _ui =
       if (conf.getBoolean("spark.ui.enabled", true)) {
         Some(SparkUI.create(Some(this), _statusStore, _conf, _env.securityManager, appName, "",
@@ -455,10 +459,10 @@ class SparkContext(config: SparkConf) extends Logging {
     _hadoopConfiguration = SparkHadoopUtil.get.newConfiguration(_conf)
 
     // Add each JAR given through the constructor
+//    将jar和file加入环境
     if (jars != null) {
       jars.foreach(addJar)
     }
-
     if (files != null) {
       files.foreach(addFile)
     }
@@ -491,6 +495,7 @@ class SparkContext(config: SparkConf) extends Logging {
       HeartbeatReceiver.ENDPOINT_NAME, new HeartbeatReceiver(this))
 
     // Create and start the scheduler
+//    创建和启动调度器
     val (sched, ts) = SparkContext.createTaskScheduler(this, master, deployMode)
     _schedulerBackend = sched
     _taskScheduler = ts
@@ -508,10 +513,12 @@ class SparkContext(config: SparkConf) extends Logging {
       System.setProperty("spark.ui.proxyBase", "/proxy/" + _applicationId)
     }
     _ui.foreach(_.setAppId(_applicationId))
+//    初始化blockmanager
     _env.blockManager.initialize(_applicationId)
 
     // The metrics system for Driver need to be set spark.app.id to app ID.
     // So it should start after we get app ID from the task scheduler and set spark.app.id.
+//    初始化指毕标系统
     _env.metricsSystem.start()
     // Attach the driver metrics servlet handler to the web ui after the metrics system is started.
     _env.metricsSystem.getServletHandlers.foreach(handler => ui.foreach(_.attachHandler(handler)))
@@ -529,6 +536,7 @@ class SparkContext(config: SparkConf) extends Logging {
       }
 
     // Optionally scale number of executors dynamically based on workload. Exposed for testing.
+//    根据负载动态扩充excutor数目
     val dynamicAllocationEnabled = Utils.isDynamicAllocationEnabled(_conf)
     _executorAllocationManager =
       if (dynamicAllocationEnabled) {
@@ -545,6 +553,7 @@ class SparkContext(config: SparkConf) extends Logging {
       }
     _executorAllocationManager.foreach(_.start())
 
+//    RDD, shuffle, 和 broadcast state 异步清理器
     _cleaner =
       if (_conf.getBoolean("spark.cleaner.referenceTracking", true)) {
         Some(new ContextCleaner(this))
