@@ -43,6 +43,8 @@ private case class CleanCheckpoint(rddId: Int) extends CleanupTask
  *
  * When the referent object becomes only weakly reachable, the corresponding
  * CleanupTaskWeakReference is automatically added to the given reference queue.
+  *
+  * 当一个引用对象变为仅有弱引用可以获取的时候，相关的CleanupTaskWeakReference就会自动加入引用队列。
  */
 private class CleanupTaskWeakReference(
     val task: CleanupTask,
@@ -52,7 +54,7 @@ private class CleanupTaskWeakReference(
 
 /**
  * An asynchronous cleaner for RDD, shuffle, and broadcast state.
- *
+ * 异步清理器，主要是清楚RDD，shuffle，broadcast的状态。
  * This maintains a weak reference for each RDD, ShuffleDependency, and Broadcast of interest,
  * to be processed when the associated object goes out of scope of the application. Actual
  * cleanup is performed in a separate daemon thread.
@@ -62,6 +64,8 @@ private[spark] class ContextCleaner(sc: SparkContext) extends Logging {
   /**
    * A buffer to ensure that `CleanupTaskWeakReference`s are not garbage collected as long as they
    * have not been handled by the reference queue.
+   * 一个缓存器，该缓存器确保CleanupTaskWeakReference在没有被引用队列处理前是不会被垃圾回收器回收的。
+   *
    */
   private val referenceBuffer =
     Collections.newSetFromMap[CleanupTaskWeakReference](new ConcurrentHashMap)
@@ -77,11 +81,14 @@ private[spark] class ContextCleaner(sc: SparkContext) extends Logging {
 
   /**
    * How often to trigger a garbage collection in this JVM.
-   *
+   * 定义在该jvm中gc主动触发gc的频率
    * This context cleaner triggers cleanups only when weak references are garbage collected.
    * In long-running applications with large driver JVMs, where there is little memory pressure
    * on the driver, this may happen very occasionally or not at all. Not cleaning at all may
    * lead to executors running out of disk space after a while.
+    *
+    * 该ContextCleaner清理器仅仅在gc的时候执行清理工作。在一个长任务中，假如driver段的内存比较充足，driver基本没有内存压力，这将会导致driver段基本不会进行垃圾回收。
+    *  基本没有清除过程，就会导致executors段磁盘写满而溢出。
    */
   private val periodicGCInterval =
     sc.conf.getTimeAsSeconds("spark.cleaner.periodicGC.interval", "30min")
@@ -89,19 +96,21 @@ private[spark] class ContextCleaner(sc: SparkContext) extends Logging {
   /**
    * Whether the cleaning thread will block on cleanup tasks (other than shuffle, which
    * is controlled by the `spark.cleaner.referenceTracking.blocking.shuffle` parameter).
-   *
+   * 除了shuffle之外的清理任务是否被阻塞
    * Due to SPARK-3015, this is set to true by default. This is intended to be only a temporary
    * workaround for the issue, which is ultimately caused by the way the BlockManager endpoints
    * issue inter-dependent blocking RPC messages to each other at high frequencies. This happens,
    * for instance, when the driver performs a GC and cleans up all broadcast blocks that are no
    * longer in scope.
+    *
+    *
    */
   private val blockOnCleanupTasks = sc.conf.getBoolean(
     "spark.cleaner.referenceTracking.blocking", true)
 
   /**
    * Whether the cleaning thread will block on shuffle cleanup tasks.
-   *
+   * 在shuffle清理任务是否会阻塞
    * When context cleaner is configured to block on every delete request, it can throw timeout
    * exceptions on cleanup of shuffle blocks, as reported in SPARK-3139. To avoid that, this
    * parameter by default disables blocking on shuffle cleanups. Note that this does not affect
@@ -115,6 +124,7 @@ private[spark] class ContextCleaner(sc: SparkContext) extends Logging {
   @volatile private var stopped = false
 
   /** Attach a listener object to get information of when objects are cleaned. */
+//  绑定一个CleanerListener，去监测对象何时被清除。
   def attachListener(listener: CleanerListener): Unit = {
     listeners.add(listener)
   }
@@ -146,25 +156,32 @@ private[spark] class ContextCleaner(sc: SparkContext) extends Logging {
   }
 
   /** Register an RDD for cleanup when it is garbage collected. */
+
+//  在垃圾回收时，注册一个RDD 清除任务。
   def registerRDDForCleanup(rdd: RDD[_]): Unit = {
     registerForCleanup(rdd, CleanRDD(rdd.id))
   }
 
+//  注册一个累加器清除任务
   def registerAccumulatorForCleanup(a: AccumulatorV2[_, _]): Unit = {
     registerForCleanup(a, CleanAccum(a.id))
   }
 
   /** Register a ShuffleDependency for cleanup when it is garbage collected. */
+
+//  在垃圾回收时，注册一个shuffle清除任务。
   def registerShuffleForCleanup(shuffleDependency: ShuffleDependency[_, _, _]): Unit = {
     registerForCleanup(shuffleDependency, CleanShuffle(shuffleDependency.shuffleId))
   }
 
   /** Register a Broadcast for cleanup when it is garbage collected. */
+  //  在垃圾回收时，注册一个广播变量清除任务。
   def registerBroadcastForCleanup[T](broadcast: Broadcast[T]): Unit = {
     registerForCleanup(broadcast, CleanBroadcast(broadcast.id))
   }
 
   /** Register a RDDCheckpointData for cleanup when it is garbage collected. */
+  //  在垃圾回收时，注册一个checkpoint清除任务。
   def registerRDDCheckpointDataForCleanup[T](rdd: RDD[_], parentId: Int): Unit = {
     registerForCleanup(rdd, CleanCheckpoint(parentId))
   }
@@ -175,6 +192,7 @@ private[spark] class ContextCleaner(sc: SparkContext) extends Logging {
   }
 
   /** Keep cleaning RDD, shuffle, and broadcast state. */
+//  执行具体的RDD，shuffle，broadcast清除任务
   private def keepCleaning(): Unit = Utils.tryOrStopSparkContext(sc) {
     while (!stopped) {
       try {
