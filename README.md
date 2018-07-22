@@ -1,5 +1,8 @@
 浪尖带着你阅读spark源码
 
+### Spark Core源码阅读
+1,[Spark Context 阅读要点](https://github.com/CrestOfWave/Spark-2.3.1/blob/master/core/SparkContextsReadPoints.md)
+
 ### Spark Sql源码阅读
 1，[SparkSql源码阅读](https://github.com/CrestOfWave/Spark-2.3.1/blob/master/sql/README.md)
 
