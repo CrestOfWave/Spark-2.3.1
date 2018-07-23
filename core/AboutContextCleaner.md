@@ -374,9 +374,11 @@ private val blockOnShuffleCleanupTasks = sc.conf.getBoolean(
 ```scala
 private val cleaningThread = new Thread() { override def run() { keepCleaning() }}
 ```
-启动是在ContextCleaner方法内部
+启动是在ContextCleaner的start方法内部
 ```scala
-cleaningThread.join()
+cleaningThread.setDaemon(true)
+cleaningThread.setName("Spark Context Cleaner")
+cleaningThread.start()
 ```
 
 关键类是在keepCleaning方法中
