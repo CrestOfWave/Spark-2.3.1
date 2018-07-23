@@ -20,7 +20,7 @@ Spark Streaming源码系列视频教程请点阅读原文进入浪尖的知识�
 
 我们在这里不会详细讲Spark Streaming源码，但是我们可以在这里思考一下，Spark Streaming分区检测是在哪做的？
 
-很明显对于批处理的Spark Streaming任务来说，分区检测应该在每次job生成获取kafkaRDD，来给kafkaRDD确定分区数并且每个分区赋值offset范围的时候有牵扯，而这段代码就在DirectKafkaInputDStream#compute方法中。(看过浪尖Spark Streaming源码视频教程的肯定会知道）
+很明显对于批处理的Spark Streaming任务来说，分区检测应该在每次job生成获取kafkaRDD，也即是在给kafkaRDD确定分区数并且每个分区赋值offset范围的时候，而这段代码就在DirectKafkaInputDStream#compute方法中。(看过浪尖Spark Streaming源码视频教程的肯定会知道）
 
 那么我们就贴出这块源码去验证我们的想法，首先compute方法的第一行：
 

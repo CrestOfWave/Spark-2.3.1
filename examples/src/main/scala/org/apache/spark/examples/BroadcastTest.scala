@@ -50,6 +50,10 @@ object BroadcastTest {
       // Collect the small RDD so we can print the observed sizes locally.
       observedSizes.collect().foreach(i => println(i))
       println("Iteration %d took %.0f milliseconds".format(i, (System.nanoTime - startTime) / 1E6))
+      barr1.destroy()
+
+      val acc = sc.accumulable(0)
+
     }
 
     spark.stop()

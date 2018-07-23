@@ -630,10 +630,56 @@ def runJob[T, U: ClassTag](
 
 ### 难道不能执行立即清理吗？
 
+#### 1. 触发gc
 当然，方法有多种，比如需要的地方，直接触发GC。
 ```scala
 System.gc();
 ```
+#### 2. RDD 
+```scala
+/**
+   * Mark the RDD as non-persistent, and remove all blocks for it from memory and disk.
+   *
+   * @param blocking Whether to block until all blocks are deleted.
+   * @return This RDD.
+   */
+  def unpersist(blocking: Boolean = true): this.type = {
+    logInfo("Removing RDD " + id + " from persistence list")
+    sc.unpersistRDD(id, blocking)
+    storageLevel = StorageLevel.NONE
+    this
+  }
+```
+实际上和doCleanupRDD内部做法一样，都是调用的sc.unpersistRDD。
+
+#### 3. broadcast
+可以通过广播变量名，直接删除
+```scala
+创建
+val barr1 = sc.broadcast(arr1)
+
+删除
+barr1.destroy()
+```
+#### 4. shuffle
+直接调取下面的api也是可以,就是不能用listener监控了
+```scala
+mapOutputTrackerMaster.unregisterShuffle(shuffleId)
+blockManagerMaster.removeShuffle(shuffleId, blocking)
+```
+
+#### 5. checkpoint
+直接调取下面的api也是可以,就是不能用listener监控了
+```scala
+ReliableRDDCheckpointData.cleanCheckpoint(sc, rddId)
+```
+
+#### 6. Accumulator
+````scala
+AccumulatorContext.remove(accId)
+````
+
+
 
 ### 能监控对象何时被清理的吗？
 当然可以，只需要继承
