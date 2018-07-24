@@ -5,6 +5,9 @@
 1，[Spark Context 阅读要点](https://github.com/CrestOfWave/Spark-2.3.1/blob/master/core/SparkContextsReadPoints.md)
 
 2，[Spark的缓存，变量，shuffle数据等清理及机制](https://github.com/CrestOfWave/Spark-2.3.1/blob/master/core/AboutContextCleaner.md)
+
+3，[Spark-submit关于参数及部署模式的部分解析](https://github.com/CrestOfWave/Spark-2.3.1/blob/master/core/AboutSparkSubmit.md)
+
 ### Spark Sql源码阅读
 1，[SparkSql源码阅读](https://github.com/CrestOfWave/Spark-2.3.1/blob/master/sql/README.md)
 

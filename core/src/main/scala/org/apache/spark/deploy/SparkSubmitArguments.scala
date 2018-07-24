@@ -83,6 +83,7 @@ private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, S
   var useRest: Boolean = true // used internally
 
   /** Default properties present in the currently defined defaults file. */
+//    当前配置文件里的默认属性配置，会在mergeDefaultSparkProperties赋值给sparkProperties
   lazy val defaultSparkProperties: HashMap[String, String] = {
     val defaultProperties = new HashMap[String, String]()
     // scalastyle:off println
@@ -104,6 +105,7 @@ private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, S
   }
 
   // Set parameters from command line arguments
+//  从命令行参数获取解析参数
   try {
     parse(args.asJava)
   } catch {
@@ -111,10 +113,13 @@ private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, S
       SparkSubmit.printErrorAndExit(e.getMessage())
   }
   // Populate `sparkProperties` map from properties file
+//  从属性配置文件中填充 sparkProperties 这个map
   mergeDefaultSparkProperties()
   // Remove keys that don't start with "spark." from `sparkProperties`.
+//  移除sparkProperties属性配置中不是以spark.开头的变量。
   ignoreNonSparkProperties()
   // Use `sparkProperties` map along with env vars to fill in any missing parameters
+//  使用sparkProperties和env变量去填充任何确实的参数。
   loadEnvironmentArguments()
 
   validateArguments()
@@ -122,9 +127,11 @@ private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, S
   /**
    * Merge values from the default properties file with those specified through --conf.
    * When this is called, `sparkProperties` is already filled with configs from the latter.
+    * 合并配置文件里的默认配置属性和--conf指定的配置属性，在这里可以看书--conf优先级更高，
    */
   private def mergeDefaultSparkProperties(): Unit = {
     // Use common defaults file, if not specified by user
+//    如果用户没有指定默认属性配置文件，将使用公用的属性配置文件
     propertiesFile = Option(propertiesFile).getOrElse(Utils.getDefaultPropertiesFile(env))
     // Honor --conf before the defaults file
     defaultSparkProperties.foreach { case (k, v) =>
@@ -148,6 +155,7 @@ private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, S
 
   /**
    * Load arguments from environment variables, Spark properties etc.
+    *  从系统环境变量和spark properties中加载参数。
    */
   private def loadEnvironmentArguments(): Unit = {
     master = Option(master)
@@ -243,6 +251,7 @@ private[deploy] class SparkSubmitArguments(args: Seq[String], env: Map[String, S
   }
 
   /** Ensure that required fields exists. Call this only once all defaults are loaded. */
+//  仅仅确保必要的参数是必须要存在的
   private def validateArguments(): Unit = {
     action match {
       case SUBMIT => validateSubmitArguments()

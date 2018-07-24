@@ -127,6 +127,7 @@ object SparkSubmit extends CommandLineUtils with Logging {
     // be reset before the application starts.
     val uninitLog = initializeLogIfNecessary(true, silent = true)
 
+//    解析参数
     val appArgs = new SparkSubmitArguments(args)
     if (appArgs.verbose) {
       // scalastyle:off println
@@ -159,12 +160,15 @@ object SparkSubmit extends CommandLineUtils with Logging {
 
   /**
    * Submit the application using the provided parameters.
-   *
+   * 利用提供的参数提交应用程序
    * This runs in two steps. First, we prepare the launch environment by setting up
    * the appropriate classpath, system properties, and application arguments for
    * running the child main class based on the cluster manager and the deploy mode.
    * Second, we use this launch environment to invoke the main method of the child
    * main class.
+    *  该过程分两步：第一步，准备加载环境，主要获取配置的途径有何时的系统路径，系统属性参数，应用程序参数（目的是根据集群管理器和部署模式运行 childmain类）。
+    *  第二步，使用加载的环境去激活child main class
+    *
    */
   @tailrec
   private def submit(args: SparkSubmitArguments, uninitLog: Boolean): Unit = {
@@ -266,6 +270,7 @@ object SparkSubmit extends CommandLineUtils with Logging {
     var childMainClass = ""
 
     // Set the cluster manager
+//    设置集群管理器
     val clusterManager: Int = args.master match {
       case "yarn" => YARN
       case "yarn-client" | "yarn-cluster" =>
@@ -282,6 +287,7 @@ object SparkSubmit extends CommandLineUtils with Logging {
     }
 
     // Set the deploy mode; default is client mode
+//    设置部署模式，默认情况都是client模式
     var deployMode: Int = args.deployMode match {
       case "client" | null => CLIENT
       case "cluster" => CLUSTER
@@ -291,6 +297,7 @@ object SparkSubmit extends CommandLineUtils with Logging {
     // Because the deprecated way of specifying "yarn-cluster" and "yarn-client" encapsulate both
     // the master and deploy mode, we have some logic to infer the master and deploy mode
     // from each other if only one is specified, or exit early if they are at odds.
+//    由于"yarn-cluster" and "yarn-client"这两种方式废弃了，组合参数是master和部署模式，这里给出了两种模式之间相互推断的执行逻辑。
     if (clusterManager == YARN) {
       (args.master, args.deployMode) match {
         case ("yarn-cluster", null) =>
@@ -312,6 +319,7 @@ object SparkSubmit extends CommandLineUtils with Logging {
       }
     }
 
+//    k8s
     if (clusterManager == KUBERNETES) {
       args.master = Utils.checkAndGetK8sMasterUrl(args.master)
       // Make sure KUBERNETES is included in our build if we're trying to use it
@@ -323,6 +331,7 @@ object SparkSubmit extends CommandLineUtils with Logging {
     }
 
     // Fail fast, the following modes are not supported or applicable
+//    给出不支持的部署模式，直接退出
     (clusterManager, deployMode) match {
       case (STANDALONE, CLUSTER) if args.isPython =>
         printErrorAndExit("Cluster deploy mode is currently not supported for python " +
@@ -348,11 +357,13 @@ object SparkSubmit extends CommandLineUtils with Logging {
     }
 
     // Update args.deployMode if it is null. It will be passed down as a Spark property later.
+//    如果部署模式为null，更新其值。后面，将会作为一个spark属性传递下去
     (args.deployMode, deployMode) match {
       case (null, CLIENT) => args.deployMode = "client"
       case (null, CLUSTER) => args.deployMode = "cluster"
       case _ =>
     }
+//    判断是哪种部署模式
     val isYarnCluster = clusterManager == YARN && deployMode == CLUSTER
     val isMesosCluster = clusterManager == MESOS && deployMode == CLUSTER
     val isStandAloneCluster = clusterManager == STANDALONE && deployMode == CLUSTER
@@ -379,6 +390,7 @@ object SparkSubmit extends CommandLineUtils with Logging {
       }
     }
 
+//    SparkSubmitArguments.scala内部解析得到的sparkProperties，赋值给sparkconf
     args.sparkProperties.foreach { case (k, v) => sparkConf.set(k, v) }
     val hadoopConf = conf.getOrElse(SparkHadoopUtil.newConfiguration(sparkConf))
     val targetDir = Utils.createTempDir()
@@ -408,6 +420,7 @@ object SparkSubmit extends CommandLineUtils with Logging {
     lazy val secMgr = new SecurityManager(sparkConf)
 
     // In client mode, download remote files.
+//    客户端模式，下载远程文件
     var localPrimaryResource: String = null
     var localJars: String = null
     var localPyFiles: String = null
@@ -429,6 +442,7 @@ object SparkSubmit extends CommandLineUtils with Logging {
     // We will download them to local disk prior to add to YARN's distributed cache.
     // For yarn client mode, since we already download them with above code, so we only need to
     // figure out the local path and replace the remote one.
+
     if (clusterManager == YARN) {
       val forceDownloadSchemes = sparkConf.get(FORCE_DOWNLOAD_SCHEMES)
 
@@ -620,6 +634,8 @@ object SparkSubmit extends CommandLineUtils with Logging {
 
     // In client mode, launch the application main class directly
     // In addition, add the main application jar and any added jars (if any) to the classpath
+//    客户端模式，会直接运行用户程序的main函数
+//    同时会将用户app jar和任何需要的jar，加入到classpath
     if (deployMode == CLIENT) {
       childMainClass = args.mainClass
       if (localPrimaryResource != null && isUserJar(localPrimaryResource)) {
@@ -631,6 +647,9 @@ object SparkSubmit extends CommandLineUtils with Logging {
     // requires these jars.
     // This assumes both primaryResource and user jars are local jars, otherwise it will not be
     // added to the classpath of YARN client.
+
+//    以防万一yarn 客户端需要这些jar，所以将用户程序jar和任何添加的jar，加入到classpath
+//    这里假设primaryResource和用户jar是本地jars，否则不会添加到yarn客户端的classpath
     if (isYarnCluster) {
       if (isUserJar(args.primaryResource)) {
         childClasspath += args.primaryResource
@@ -643,6 +662,7 @@ object SparkSubmit extends CommandLineUtils with Logging {
     }
 
     // Map all arguments to command-line options or system properties for our chosen mode
+//    根据选择的运行模式，包装所有的命令行参数和系统属性
     for (opt <- options) {
       if (opt.value != null &&
           (deployMode & opt.deployMode) != 0 &&
@@ -660,6 +680,8 @@ object SparkSubmit extends CommandLineUtils with Logging {
     // Add the application jar automatically so the user doesn't have to call sc.addJar
     // For YARN cluster mode, the jar is already distributed on each node as "app.jar"
     // For python and R files, the primary resource is already distributed as a regular file
+
+//    将用户的jar自动加入到spark.jars,避免用户自己调用sc.addJar添加。对于yarn cluster模式，jar已经发送到了每一个node，命名为app.jar
     if (!isYarnCluster && !args.isPython && !args.isR) {
       var jars = sparkConf.getOption("spark.jars").map(x => x.split(",").toSeq).getOrElse(Seq.empty)
       if (isUserJar(args.primaryResource)) {
@@ -700,6 +722,7 @@ object SparkSubmit extends CommandLineUtils with Logging {
     }
 
     // In yarn-cluster mode, use yarn.Client as a wrapper around the user class
+//    在yarn-cluster模式下，使用yarn.client封装了用户类，客户端执行的是yarn.client
     if (isYarnCluster) {
       childMainClass = YARN_CLUSTER_SUBMIT_CLASS
       if (args.isPython) {
