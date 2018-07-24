@@ -437,7 +437,9 @@ private[deploy] def prepareSubmitEnvironment(
 代码里很容易会发现，在进入用户代码之前已经确定了部署模式，并且按照部署模式执行了相应的childmain。这个时候有几种情况可以测试：
 
 1,spark-submit指定yarn-client模式下，在用户代码里setMaster设置为了local[*]。
+
 2,spark-submit指定为local模式下，在用户代码里setmaster设置为master或者client。
+
 3，在spark-submit指定为client或者local的模式下，用户代码里设置master为cluster。
 
 在这几种情况下，SparkContext在创建createTaskScheduler方法里会根据最终设置的配置来创建调度模式，由于不同的模式在SparkSubmit解析的时候生成参数和依赖的方式不一样，会有相应的错误。
