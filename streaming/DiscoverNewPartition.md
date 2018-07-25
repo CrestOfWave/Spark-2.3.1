@@ -10,6 +10,9 @@
 
 Spark Streaming源码系列视频教程请点阅读原文进入浪尖的知识星球：Spark技术学院。
 
+首先看看官网给出的数据
+[SparkStreaming与kafka结合两种版本对比](./Spark.jpg)
+
 ### kafka 0.8版本
 
 进入正题，之所以会有今天题目的疑惑，是由于在08版本kafka和Spark Streaming结合的DirectStream这种形式的API里面，是不支持kafka新增分区或者topic检测的。而这个问题，对于很多业务增长比较明显的公司都是会有碰到相应的问题。
