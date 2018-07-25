@@ -11,6 +11,7 @@
 Spark Streaming源码系列视频教程请点阅读原文进入浪尖的知识星球：Spark技术学院。
 
 首先看看官网给出的数据
+
 ![image](./Spark.jpg)
 
 ### kafka 0.8版本
