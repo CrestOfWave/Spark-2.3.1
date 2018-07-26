@@ -129,22 +129,31 @@ private[spark] class DirectKafkaInputDStream[K, V](
     val estimatedRateLimit = rateController.map(_.getLatestRate())
 
     // calculate a per-partition rate limit based on current lag
+//    基于当前lag，来计算每个分区的速率。
     val effectiveRateLimitPerPartition = estimatedRateLimit.filter(_ > 0) match {
       case Some(rate) =>
+//        求出每个分区滞后的消息offset
         val lagPerPartition = offsets.map { case (tp, offset) =>
           tp -> Math.max(offset - currentOffsets(tp), 0)
         }
         val totalLag = lagPerPartition.values.sum
 
         lagPerPartition.map { case (tp, lag) =>
+//          取出分区配置的最大限速 速率，由参数 spark.streaming.kafka.maxRatePerPartition 配置
           val maxRateLimitPerPartition = ppc.maxRatePerPartition(tp)
+//          计算背压rate
           val backpressureRate = Math.round(lag / totalLag.toFloat * rate)
+
+//          计算每个分区要消费的最大offset，假如配置了spark.streaming.kafka.maxRatePerPartition，就取背压速率和最大速率的最小值，假如没有最大限速，就取背压速率
+
           tp -> (if (maxRateLimitPerPartition > 0) {
             Math.min(backpressureRate, maxRateLimitPerPartition)} else backpressureRate)
         }
+//       假如PID计算器没有计算出大于0的速率，或者没有使用(新增分区)，那么就采用配置中的最大限速速率
       case None => offsets.map { case (tp, offset) => tp -> ppc.maxRatePerPartition(tp) }
     }
 
+//    将batch时间转化为s，并且乘以前面算的速率，得到最大oofset。
     if (effectiveRateLimitPerPartition.values.sum > 0) {
       val secsPerBatch = context.graph.batchDuration.milliseconds.toDouble / 1000
       Some(effectiveRateLimitPerPartition.map {
@@ -176,6 +185,7 @@ private[spark] class DirectKafkaInputDStream[K, V](
 
   /**
    * Returns the latest (highest) available offsets, taking new partitions into account.
+    *  返回最大可提供offset，并将新增分区生效
    */
   protected def latestOffsets(): Map[TopicPartition, Long] = {
     val c = consumer
@@ -190,20 +200,23 @@ private[spark] class DirectKafkaInputDStream[K, V](
     // 新分区消费位置，没有记录的化是由auto.offset.reset决定
     currentOffsets = currentOffsets ++ newPartitions.map(tp => tp -> c.position(tp)).toMap
     // don't want to consume messages, so pause
+    // 不会在这里获取数据，所以要pause
     c.pause(newPartitions.asJava)
     // find latest available offsets
+//    找到kafka可提供的最大offsets
     c.seekToEnd(currentOffsets.keySet.asJava)
     parts.map(tp => tp -> c.position(tp)).toMap
   }
 
   // limits the maximum number of messages per partition
+//  限制每个分区处理的最大消息条数不超过kafka 分区里的最大offset
   protected def clamp(
     offsets: Map[TopicPartition, Long]): Map[TopicPartition, Long] = {
 
     maxMessagesPerPartition(offsets).map { mmp =>
       mmp.map { case (tp, messages) =>
-          val uo = offsets(tp)
-          tp -> Math.min(currentOffsets(tp) + messages, uo)
+          val uo = offsets(tp) // kafka的最大偏移
+          tp -> Math.min(currentOffsets(tp) + messages, uo) // 限制最大偏移应该小于等于kafka最大offset
       }
     }.getOrElse(offsets)
   }

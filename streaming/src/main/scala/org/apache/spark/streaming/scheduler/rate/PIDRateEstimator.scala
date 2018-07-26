@@ -78,43 +78,36 @@ private[streaming] class PIDRateEstimator(
     s"derivative = $derivative, min rate = $minRate")
 
   def compute(
-      time: Long, // in milliseconds
-      numElements: Long,
-      processingDelay: Long, // in milliseconds
-      schedulingDelay: Long // in milliseconds
+      time: Long, // in milliseconds processingEnd
+      numElements: Long, // numRecords
+      processingDelay: Long, // in milliseconds processingDelay
+      schedulingDelay: Long // in milliseconds schedulingDelay
     ): Option[Double] = {
     logTrace(s"\ntime = $time, # records = $numElements, " +
       s"processing time = $processingDelay, scheduling delay = $schedulingDelay")
     this.synchronized {
       if (time > latestTime && numElements > 0 && processingDelay > 0) {
 
-        // in seconds, should be close to batchDuration
+//        以秒为单位，改时间应该接近于batchtime
         val delaySinceUpdate = (time - latestTime).toDouble / 1000
 
-        // in elements/second
+//        每秒钟处理的消息条数
         val processingRate = numElements.toDouble / processingDelay * 1000
 
-        // In our system `error` is the difference between the desired rate and the measured rate
-        // based on the latest batch information. We consider the desired rate to be latest rate,
-        // which is what this estimator calculated for the previous batch.
-        // in elements/second
+//        error就是目标rate和当前测量rate的差值。其中，目标rate是该estimator为上个批次计算的rate
+//        单位是 elements/second
+//        该值就是PID中的P系数要乘以的值
         val error = latestRate - processingRate
 
-        // The error integral, based on schedulingDelay as an indicator for accumulated errors.
-        // A scheduling delay s corresponds to s * processingRate overflowing elements. Those
-        // are elements that couldn't be processed in previous batches, leading to this delay.
-        // In the following, we assume the processingRate didn't change too much.
-        // From the number of overflowing elements we can calculate the rate at which they would be
-        // processed by dividing it by the batch interval. This rate is our "historical" error,
-        // or integral part, since if we subtracted this rate from the previous "calculated rate",
-        // there wouldn't have been any overflowing elements, and the scheduling delay would have
-        // been zero.
-        // (in elements/second)
+//        该值应该是历史Error的积分。
+//        调度延迟乘以处理速率，得到的就是历史挤压的未处理的元素个数。因为是有这些为处理元素的挤压才导致的有这么长的调度延迟。当然，这里是假设处理速率变化不大。
+//        得到未处理元素个数，除以批处理时间，就是当前需要处理元素的速率。这个既可以当成历史Error的积分
         val historicalError = schedulingDelay.toDouble * processingRate / batchIntervalMillis
 
         // in elements/(second ^ 2)
         val dError = (error - latestError) / delaySinceUpdate
 
+//        计算得到新的速率
         val newRate = (latestRate - proportional * error -
                                     integral * historicalError -
                                     derivative * dError).max(minRate)
@@ -124,6 +117,7 @@ private[streaming] class PIDRateEstimator(
             | delaySinceUpdate = $delaySinceUpdate, dError = $dError
             """.stripMargin)
 
+//        更新参数
         latestTime = time
         if (firstRun) {
           latestRate = processingRate
