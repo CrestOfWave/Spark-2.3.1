@@ -8,13 +8,19 @@
 
 3. [Spark-submit关于参数及部署模式的部分解析](core/AboutSparkSubmit.md)
 
-4. [PIDController源码赏析及backpressure实现思路](./core/PIDController.md)
+
 ### Spark Sql源码阅读
-1，[SparkSql源码阅读](sql/README.md)
+
+1. [SparkSql源码阅读](sql/README.md)
 
 
 ### Spark Streaming源码阅读
-1，[动态发现新增分区](streaming/DiscoverNewPartition.md)
+
+1. [动态发现新增分区](streaming/DiscoverNewPartition.md)
+
+2. [Dstream join操作和RDD join操作的区别](streaming/DStreamJoinVSRddJoin.md)
+
+3. [PIDController源码赏析及backpressure实现思路](./core/PIDController.md)
 
 更多大数据文章请关注浪尖微信公众号：Spark学习技巧
 
