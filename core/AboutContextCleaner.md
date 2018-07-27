@@ -742,3 +742,7 @@ val cleanerListener = new CleanerListener {
 ```scala
 sc.cleaner.get.attachListener(cleanerListener)
 ```
+欢迎关注浪尖公众号：
+![image](../微信公众号.jpg)
+或者加入知识星球
+![image](../知识星球.jpg)

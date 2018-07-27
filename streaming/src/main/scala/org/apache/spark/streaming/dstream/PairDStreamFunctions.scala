@@ -593,6 +593,9 @@ class PairDStreamFunctions[K, V](self: DStream[(K, V)])
   /**
    * Return a new DStream by applying 'join' between RDDs of `this` DStream and `other` DStream.
    * Hash partitioning is used to generate the RDDs with Spark's default number of partitions.
+    *
+    *  通过join this和other Dstream的rdd构建出一个新的DStream.
+    *  Hash分区器，用来使用默认的分区数来产生RDDs。
    */
   def join[W: ClassTag](other: DStream[(K, W)]): DStream[(K, (V, W))] = ssc.withScope {
     join[W](other, defaultPartitioner())
@@ -601,6 +604,9 @@ class PairDStreamFunctions[K, V](self: DStream[(K, V)])
   /**
    * Return a new DStream by applying 'join' between RDDs of `this` DStream and `other` DStream.
    * Hash partitioning is used to generate the RDDs with `numPartitions` partitions.
+    *
+    *  通过join this和other Dstream的rdd构建出一个新的DStream.
+    *  Hash分区器，用来使用numPartitions分区数来产生RDDs。
    */
   def join[W: ClassTag](
       other: DStream[(K, W)],
@@ -611,6 +617,8 @@ class PairDStreamFunctions[K, V](self: DStream[(K, V)])
   /**
    * Return a new DStream by applying 'join' between RDDs of `this` DStream and `other` DStream.
    * The supplied org.apache.spark.Partitioner is used to control the partitioning of each RDD.
+    * 通过join this和other Dstream的rdd构建出一个新的DStream.
+    * 使用org.apache.spark.Partitioner来控制每个RDD的分区。
    */
   def join[W: ClassTag](
       other: DStream[(K, W)],

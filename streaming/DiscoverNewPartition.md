@@ -77,3 +77,7 @@ val untilOffsets = clamp(latestOffsets())
 
 到这里本文就算结束了，kafka 0.10版本与SparkStreaming结合支持新增分区检测，这件事告诉我们没事要多看源码，增长见识。
 
+欢迎关注浪尖公众号：
+![image](../微信公众号.jpg)
+或者加入知识星球
+![image](../知识星球.jpg)

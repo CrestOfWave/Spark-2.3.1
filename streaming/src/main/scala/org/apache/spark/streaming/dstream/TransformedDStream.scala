@@ -39,6 +39,7 @@ class TransformedDStream[U: ClassTag] (
   override def slideDuration: Duration = parents.head.slideDuration
 
   override def compute(validTime: Time): Option[RDD[U]] = {
+//    针对每一个流，获取其当前时间的RDD。
     val parentRDDs = parents.map { parent => parent.getOrCompute(validTime).getOrElse(
       // Guard out against parent DStream that return None instead of Some(rdd) to avoid NPE
       throw new SparkException(s"Couldn't generate RDD from parent at time $validTime"))

@@ -445,3 +445,8 @@ private[deploy] def prepareSubmitEnvironment(
 
 在这几种情况下，SparkContext在创建createTaskScheduler方法里会根据最终设置的配置来创建调度模式，由于不同的模式在SparkSubmit解析的时候生成参数和依赖的方式不一样，会有相应的错误。
 这里对比和错误展示，后面抽空浪尖整理给出。
+
+欢迎关注浪尖公众号：
+![image](../微信公众号.jpg)
+或者加入知识星球
+![image](../知识星球.jpg)
