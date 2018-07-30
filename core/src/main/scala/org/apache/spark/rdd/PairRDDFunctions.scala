@@ -88,6 +88,7 @@ class PairRDDFunctions[K, V](self: RDD[(K, V)])
       self.context.clean(createCombiner),
       self.context.clean(mergeValue),
       self.context.clean(mergeCombiners))
+    // 会好奇两个对象比较地意义，在这里就是比较分区-hashpartitioner，每个partition要实现hashcode和equals方法
     if (self.partitioner == Some(partitioner)) {
       self.mapPartitions(iter => {
         val context = TaskContext.get()
@@ -494,11 +495,14 @@ class PairRDDFunctions[K, V](self: RDD[(K, V)])
    *
    * @note As currently implemented, groupByKey must be able to hold all the key-value pairs for any
    * key in memory. If a key has too many values, it can result in an `OutOfMemoryError`.
+    *
+    *
    */
   def groupByKey(partitioner: Partitioner): RDD[(K, Iterable[V])] = self.withScope {
     // groupByKey shouldn't use map side combine because map side combine does not
     // reduce the amount of data shuffled and requires all map side data be inserted
     // into a hash table, leading to more objects in the old gen.
+//    groupByKey不需要开启map端合并，因为map端合并并不会减少shuffle的数据量，而且map端的所有数据都会被插入一张hash 表，这会使得更多的对象进入老年代。
     val createCombiner = (v: V) => CompactBuffer(v)
     val mergeValue = (buf: CompactBuffer[V], v: V) => buf += v
     val mergeCombiners = (c1: CompactBuffer[V], c2: CompactBuffer[V]) => c1 ++= c2

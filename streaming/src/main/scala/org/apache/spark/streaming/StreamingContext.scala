@@ -25,14 +25,12 @@ import scala.collection.Map
 import scala.collection.mutable.Queue
 import scala.reflect.ClassTag
 import scala.util.control.NonFatal
-
 import org.apache.commons.lang3.SerializationUtils
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.Path
 import org.apache.hadoop.io.{BytesWritable, LongWritable, Text}
 import org.apache.hadoop.mapreduce.{InputFormat => NewInputFormat}
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat
-
 import org.apache.spark._
 import org.apache.spark.annotation.{DeveloperApi, Experimental}
 import org.apache.spark.deploy.SparkHadoopUtil
@@ -45,8 +43,7 @@ import org.apache.spark.storage.StorageLevel
 import org.apache.spark.streaming.StreamingContextState._
 import org.apache.spark.streaming.dstream._
 import org.apache.spark.streaming.receiver.Receiver
-import org.apache.spark.streaming.scheduler.
-    {ExecutorAllocationManager, JobScheduler, StreamingListener, StreamingListenerStreamingStarted}
+import org.apache.spark.streaming.scheduler.{ExecutorAllocationManager, JobScheduler, StreamingListener, StreamingListenerStreamingStarted}
 import org.apache.spark.streaming.ui.{StreamingJobProgressListener, StreamingTab}
 import org.apache.spark.util.{CallSite, ShutdownHookManager, ThreadUtils, Utils}
 
@@ -155,6 +152,7 @@ class StreamingContext private[streaming] (
 
   private[streaming] val env = sc.env
 
+//  加假如有checkpoint就从checkpoint恢复，没有checkpoint就创建新的
   private[streaming] val graph: DStreamGraph = {
     if (isCheckpointPresent) {
       _cp.graph.setContext(this)
@@ -205,6 +203,7 @@ class StreamingContext private[streaming] (
 
   // Copy of thread-local properties from SparkContext. These properties will be set in all tasks
   // submitted by this StreamingContext after start.
+//  从spark context复制线程本地属性，这些属性将会被StreamingContext提交的所有task设置
   private[streaming] val savedProperties = new AtomicReference[Properties](new Properties)
 
   private[streaming] def getStartSite(): CallSite = startSite.get()
@@ -506,12 +505,14 @@ class StreamingContext private[streaming] (
    * Add a [[org.apache.spark.streaming.scheduler.StreamingListener]] object for
    * receiving system events related to streaming.
    */
+//  添加Streaminglistener ，可以接收该streaming相关的系统事件
   def addStreamingListener(streamingListener: StreamingListener) {
     scheduler.listenerBus.addListener(streamingListener)
   }
 
   private def validate() {
     assert(graph != null, "Graph is null")
+//    DstreamGraph
     graph.validate()
 
     require(
@@ -577,14 +578,21 @@ class StreamingContext private[streaming] (
             // Start the streaming scheduler in a new thread, so that thread local properties
             // like call sites and job groups can be reset without affecting those of the
             // current thread.
+//            在新线程中启动streaming scheduler，以便线程本地属性可以重新设置而不影响当前线程。例如call sites 和job groups
+
             ThreadUtils.runInNewThread("streaming-start") {
               sparkContext.setCallSite(startSite.get)
               sparkContext.clearJobGroup()
               sparkContext.setLocalProperty(SparkContext.SPARK_JOB_INTERRUPT_ON_CANCEL, "false")
               savedProperties.set(SerializationUtils.clone(sparkContext.localProperties.get()))
+
+//              启动JobScheduler
               scheduler.start()
             }
+
+
             state = StreamingContextState.ACTIVE
+
             scheduler.listenerBus.post(
               StreamingListenerStreamingStarted(System.currentTimeMillis()))
           } catch {
@@ -601,7 +609,10 @@ class StreamingContext private[streaming] (
           StreamingContext.SHUTDOWN_HOOK_PRIORITY)(() => stopOnShutdown())
         // Registering Streaming Metrics at the start of the StreamingContext
         assert(env.metricsSystem != null)
+//        注册度量系统-StreamingSource
         env.metricsSystem.registerSource(streamingSource)
+
+//        绑定ui
         uiTab.foreach(_.attach())
         logInfo("StreamingContext started")
       case ACTIVE =>
@@ -765,7 +776,6 @@ object StreamingContext extends Logging {
 
   /**
    * :: Experimental ::
-   *
    * Either return the "active" StreamingContext (that is, started but not stopped), or create a
    * new StreamingContext that is
    * @param creatingFunc   Function to create a new StreamingContext

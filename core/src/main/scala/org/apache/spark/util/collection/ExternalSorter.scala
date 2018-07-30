@@ -37,7 +37,13 @@ import org.apache.spark.storage.{BlockId, DiskBlockObjectWriter}
  * optionally sorts keys within each partition using a custom Comparator. Can output a single
  * partitioned file with a different byte range for each partition, suitable for shuffle fetches.
  *
+ * 排序和可能合并一定数量的key-value，类型(K, V)，产生key-combiner (K, C).
+ *
+ * 适用Partitioner首先将想key分组到分区内部，然后在每个分区内部适用自定义比较器对key进行排序。可以输出一个单独的分区文件，每个分区占文件的一定范围。
+ *
+ *
  * If combining is disabled, the type C must equal V -- we'll cast the objects at the end.
+ * 如果，禁止combining，类型C必须等于类型V。
  *
  * Note: Although ExternalSorter is a fairly generic sorter, some of its configuration is tied
  * to its use in sort-based shuffle (for example, its block compression is controlled by
@@ -54,8 +60,18 @@ import org.apache.spark.storage.{BlockId, DiskBlockObjectWriter}
  * probably want to pass None as the ordering to avoid extra sorting. On the other hand, if you do
  * want to do combining, having an Ordering is more efficient than not having it.
  *
+  *  一旦给定排序器，就会一直被使用，所以仅仅在确定需要输出key排序的时候采取给定排序器。
+  *
+  *  对于没有map端合并的，你可以传入none，来避免排序。
+  *
+  *
+  *
  * Users interact with this class in the following way:
- *
+ * 用户和该类打交道可以采用如下方式：
+  *  1，实例化ExternalSorter
+  *  2，调用insertAll()，传入记录
+  *  3，请求返回iterator()，以便遍历sorted/aggregated 。或者激活一个writePartitionedFile()，去创建一个文件，包含sorted/aggregated输出。
+  *
  * 1. Instantiate an ExternalSorter.
  *
  * 2. Call insertAll() with a set of records.
@@ -66,24 +82,29 @@ import org.apache.spark.storage.{BlockId, DiskBlockObjectWriter}
  *    that can be used in Spark's sort shuffle.
  *
  * At a high level, this class works internally as follows:
- *
+ * 更高层面，该类内部工作流成如下：
+  * - 不停的使用PartitionedAppendOnlyMap或者PartitionedPairBuffer，其中PartitionedPairBuffer不会根据key进行combine，PartitionedAppendOnlyMap会根据key进行合并。
+  *   在这写buffer内部，会对元素根据partition id 及 key(需要的话)进行排序。 为了避免频繁调用分区器，将分区id跟每个记录一起保存。
  *  - We repeatedly fill up buffers of in-memory data, using either a PartitionedAppendOnlyMap if
  *    we want to combine by key, or a PartitionedPairBuffer if we don't.
  *    Inside these buffers, we sort elements by partition ID and then possibly also by key.
  *    To avoid calling the partitioner multiple times with each key, we store the partition ID
  *    alongside each record.
- *
+  *
+  * - 当每个buffer达到了内存上线，我们将其溢出到一个文件上。该文件会现根据分区id进行排序，也可能根据key或者key的hashcode进行排序(如果要进行聚合的话)。
+ *    对于每一个文件，我们会在内存中记录每个分区有多少对象，所以，无需为每个元素写入分区id。
  *  - When each buffer reaches our memory limit, we spill it to a file. This file is sorted first
  *    by partition ID and possibly second by key or by hash code of the key, if we want to do
  *    aggregation. For each file, we track how many objects were in each partition in memory, so we
  *    don't have to write out the partition ID for every element.
- *
+ * -  当用户请求一个迭代器或者文件输出的时候，溢写文件和内存中的数据就会被合并。
  *  - When the user requests an iterator or file output, the spilled files are merged, along with
  *    any remaining in-memory data, using the same sort order defined above (unless both sorting
  *    and aggregation are disabled). If we need to aggregate by key, we either use a total ordering
  *    from the ordering parameter, or read the keys with the same hash code and compare them with
  *    each other for equality to merge values.
  *
+  * - 在结束的时候为了删除中间文件，用户需要调用stop()
  *  - Users are expected to call stop() at the end to delete all the intermediate files.
  */
 private[spark] class ExternalSorter[K, V, C](

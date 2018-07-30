@@ -18,6 +18,7 @@
 // scalastyle:off println
 package org.apache.spark.examples
 
+import org.apache.spark.{SparkContext, MyListener}
 import org.apache.spark.sql.SparkSession
 
 /**
@@ -59,6 +60,8 @@ object SparkPageRank {
       .builder
       .appName("SparkPageRank")
       .getOrCreate()
+
+
 
     val iters = if (args.length > 1) args(1).toInt else 10
     val lines = spark.read.textFile(args(0)).rdd

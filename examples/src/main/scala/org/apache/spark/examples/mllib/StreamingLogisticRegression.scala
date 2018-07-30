@@ -63,6 +63,7 @@ object StreamingLogisticRegression {
     val model = new StreamingLogisticRegressionWithSGD()
       .setInitialWeights(Vectors.zeros(args(3).toInt))
 
+
     model.trainOn(trainingData)
     model.predictOnValues(testData.map(lp => (lp.label, lp.features))).print()
 

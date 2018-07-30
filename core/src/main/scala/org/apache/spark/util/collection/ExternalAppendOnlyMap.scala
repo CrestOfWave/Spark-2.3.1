@@ -39,9 +39,13 @@ import org.apache.spark.util.collection.ExternalAppendOnlyMap.HashComparator
  * :: DeveloperApi ::
  * An append-only map that spills sorted content to disk when there is insufficient space for it
  * to grow.
- *
+ * append-only map会在内存不足的情况下将排序的内容溢写到磁盘。
+*
+*
  * This map takes two passes over the data:
- *
+ * 此映射对数据进行两次传递：
+  * 1。 值会被合并到combiners中，combiners会对其进行排序并在有必要的情况下溢写到磁盘。
+  * 2。 combiner被从磁盘读取，然后合并
  *   (1) Values are merged into combiners, which are sorted and spilled to disk as necessary
  *   (2) Combiners are read from disk and merged together
  *
@@ -50,6 +54,10 @@ import org.apache.spark.util.collection.ExternalAppendOnlyMap.HashComparator
  * However, if the spill threshold is too low, we spill frequently and incur unnecessary disk
  * writes. This may lead to a performance regression compared to the normal case of using the
  * non-spilling AppendOnlyMap.
+  * 溢出阈值的设置面临以下权衡：
+  * 阈值设置过大，in-memory map可能会申请过多的内存，导致OOM。
+  * 阈值设置过小，会导致频繁写入磁盘，导致性能大幅下降。
+  *
  */
 @DeveloperApi
 class ExternalAppendOnlyMap[K, V, C](
@@ -131,12 +139,17 @@ class ExternalAppendOnlyMap[K, V, C](
 
   /**
    * Insert the given iterator of keys and values into the map.
-   *
+   * 将给定的key-value迭代器写入map
+    *
    * When the underlying map needs to grow, check if the global pool of shuffle memory has
    * enough room for this to happen. If so, allocate the memory required to grow the map;
    * otherwise, spill the in-memory map to disk.
+    *
+    * 当map需要增加内存的时候，就先检查shuffle 内存的全局池是否还有足够的内存。如果有就增加该map，如果没有就将内存的map溢写到磁盘。
    *
    * The shuffle memory usage of the first trackMemoryThreshold entries is not tracked.
+    *
+    *
    */
   def insertAll(entries: Iterator[Product2[K, V]]): Unit = {
     if (currentMap == null) {
@@ -179,6 +192,8 @@ class ExternalAppendOnlyMap[K, V, C](
 
   /**
    * Sort the existing contents of the in-memory map and spill them to a temporary file on disk.
+    *
+    * 对内存map中已有的内容进行排序，并溢写到磁盘上临时文件。
    */
   override protected[this] def spill(collection: SizeTracker): Unit = {
     val inMemoryIterator = currentMap.destructiveSortedIterator(keyComparator)
@@ -189,6 +204,7 @@ class ExternalAppendOnlyMap[K, V, C](
   /**
    * Force to spilling the current in-memory collection to disk to release memory,
    * It will be called by TaskMemoryManager when there is not enough memory for the task.
+    *  强制溢写当前内存集合到磁盘，以释放内存。当没有足够的内存执行task的时候，会被TaskMemoryManager调用。
    */
   override protected[this] def forceSpill(): Boolean = {
     if (readingIterator != null) {
@@ -208,6 +224,7 @@ class ExternalAppendOnlyMap[K, V, C](
 
   /**
    * Spill the in-memory Iterator to a temporary file on disk.
+    * 将内存的迭代器溢写到磁盘的临时文件，工具时BlockManager
    */
   private[this] def spillMemoryIteratorToDisk(inMemoryIterator: Iterator[(K, C)])
       : DiskMapIterator = {
@@ -296,6 +313,7 @@ class ExternalAppendOnlyMap[K, V, C](
 
   /**
    * An iterator that sort-merges (K, C) pairs from the in-memory map and the spilled maps
+    * 排序合并来自内存map的(K，C)对，并溢写到磁盘
    */
   private class ExternalIterator extends Iterator[(K, C)] {
 

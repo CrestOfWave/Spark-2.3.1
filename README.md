@@ -8,19 +8,20 @@
 
 3. [Spark-submit关于参数及部署模式的部分解析](core/AboutSparkSubmit.md)
 
+4. [GroupByKey VS ReduceByKey](core/ReduceByKeyAndGroupByKey.md)
 
 ### Spark Sql源码阅读
 
-1. [SparkSql源码阅读](sql/README.md)
+1. [Spark Sql源码阅读](sql/README.md)
 
 
 ### Spark Streaming源码阅读
 
 1. [动态发现新增分区](streaming/DiscoverNewPartition.md)
 
-2. [Dstream join操作和RDD join操作的区别](streaming/DStreamJoinVSRddJoin.md)
+2. [Dstream join 操作和 RDD join 操作的区别](streaming/DStreamJoinVSRddJoin.md)
 
-3. [PIDController源码赏析及backpressure实现思路](./core/PIDController.md)
+3. [PIDController源码赏析及 back pressure 实现思路](./core/PIDController.md)
 
 更多大数据文章请关注浪尖微信公众号：Spark学习技巧
 

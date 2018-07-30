@@ -49,6 +49,7 @@ object CorrelationExample {
       Vectors.sparse(4, Seq((0, 9.0), (3, 1.0)))
     )
 
+
     val df = data.map(Tuple1.apply).toDF("features")
     val Row(coeff1: Matrix) = Correlation.corr(df, "features").head
     println(s"Pearson correlation matrix:\n $coeff1")
