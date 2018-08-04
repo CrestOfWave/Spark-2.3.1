@@ -5,7 +5,7 @@
 
 ### 1.1 checkpoint简介
 流应用程序必须7*24小时运行，因此必须能够适应与应用程序逻辑无关的故障（例如，系统故障，JVM崩溃等）。 
-为了实现这一点，Spark Streaming需要将足够的信息检查到容错存储系统，以便它可以从故障中恢复。 checkpoint有两种类型的数据。
+为了实现这一点，Spark Streaming需要将足够的信息checkpoint到容错存储系统，以便它可以从故障中恢复。 checkpoint有两种类型的数据。
 
 * 元数据checkpoint - 将定义流式计算的信息保存到容错存储（如HDFS）。这用于从运行流应用程序的driver节点的故障中恢复（稍后详细讨论）。元数据包括：
  
@@ -16,7 +16,7 @@
 * 数据checkpoint - 将生成的RDD保存到可靠的存储。在一些跨多个批次组合数据的有状态转换中，这是必需的。在这种转换中，生成的RDD依赖于先前批次的RDD，这导致依赖链的长度随时间增加。
 为了避免恢复时间的无限增加（故障恢复时间与依赖链成比例），有状态转换的中RDD周期性地checkpoint到可靠存储（例如HDFS）以切断依赖链。
 
-总而言之，元数据checkpoint主要用于从驱动程序故障中恢复，而如果使用有状态转换操作，也需要数据或RDD checkpoint。
+总而言之，元数据checkpoint主要用于从driver故障中恢复，而如果使用有状态转换操作，也需要数据或RDD 进行checkpoint。
 
 ### 1.2 合适使能checkpoint
 
@@ -32,7 +32,7 @@
 ### 1.3 如何配置 checkpoint
 
 可以通过在容错，可靠的文件系统（例如，HDFS，S3等）中设置目录来启用checkpoint，在目录中将保存checkpoint信息。 
-通过使用streamingContext.checkpoint（checkpointDirectory）来完成。 这将允许你使用上述有状态转换。 
+通过使用streamingContext.checkpoint（checkpointDirectory）来完成设置。 
 此外，如果要使应用程序从driver故障中恢复，则应重写流应用程序以使其具有以下行为。
 
 * 当程序第一次启动时，它将创建一个新的StreamingContext，设置所有流然后调用start（）。
@@ -64,10 +64,10 @@ context.awaitTermination()
 如果checkpointDirectory存在，则将从checkpoint数据重新创建上下文。如果该目录不存在（即，第一次运行），则将调用函数functionToCreateContext以创建新上下文并设置DStream。
 
 
-除了使用getOrCreate之外，还需要确保driver进程在失败时自动重新启动。这只能通过应用程序运行环境来完成，比如yarn。
+除了使用getOrCreate之外，还需要确保driver进程在失败时自动重新启动。这只能通过应用程序部署的集群管理器来完成，比如yarn。
 
-请注意，RDD的checkpoint会导致保存到可靠存储的开销。这可能导致RDD被checkpoint的那些批次的处理时间增加。因此，需要小心设置checkpoint的间隔。
-在小批量（例如1秒）下，每批次checkpoint可能会显着降低操作吞吐量。相反，checkpoint太过不频繁会导致血统和任务大小增加，这可能会产生不利影响。
+请注意，RDD的checkpoint会导致写入可靠存储的开销。这可能导致RDD被checkpoint的那些批次的处理时间增加。因此，需要谨慎设置checkpoint的间隔。
+在小批量（例如1秒）下，每批次checkpoint可能会显着降低操作吞吐量。相反，checkpoint太过不频繁会导致血统链增长和任务大小增加，这可能会产生不利影响。
 对于需要RDDcheckpoint的有状态转换，默认时间间隔是批处理间隔的倍数，至少为10秒。可以使用dstream.checkpoint（checkpointInterval）进行设置。
 通常推荐，checkpoint间隔设置为DStream的5-10个滑动间隔（不是仅限于batch，还有windows的滑动间隔).
 
@@ -142,10 +142,25 @@ wordCounts.foreachRDD { (rdd: RDD[(String, Int)], time: Time) =>
 然后可以启动升级的应用程序，该应用程序将从早期应用程序停止的同一位置开始处理。请注意，这只能通过支持源端缓冲的输入源（如Kafka和Flume）来完成，因为在前一个应用程序关闭且升级的应用程序尚未启动时需要缓冲数据。
 并且无法从早期checkpoint中重新启动升级前代码的信息。checkpoint信息基本上包含序列化的Scala / Java / Python对象，而且尝试使用新的修改类反序列化这些对象可能会导致错误。
 在这种情况下，要么使用不同的checkpoint目录启动升级的应用程序，要么删除以前的checkpoint目录。
+StreamingContext.stop 方法如下：
+```scala
+def
+stop(stopSparkContext: Boolean, stopGracefully: Boolean): Unit
+ Permalink
+Stop the execution of the streams, with option of ensuring all received data has been processed.
 
+stopSparkContext
+if true, stops the associated SparkContext. The underlying SparkContext will be stopped regardless of whether this StreamingContext has been started.
 
+stopGracefully
+if true, stops gracefully by waiting for the processing of all received data to be completed
+```
 
+当然，一个配置参数也可以设置：
 
+```scala
+spark.streaming.stopGracefullyOnShutdown	false	If true, Spark shuts down the StreamingContext gracefully on JVM shutdown rather than immediately.
+```
 
 
 
