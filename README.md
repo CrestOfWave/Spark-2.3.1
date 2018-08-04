@@ -25,6 +25,8 @@
 
 4. [Streaming Context重点摘要](streaming/AboutStreamContext.md)
 
+5. [checkpoint 必知必会](streaming/AboutCheckPoint.md)
+
 更多大数据文章请关注浪尖微信公众号：Spark学习技巧
 
 ![image](./微信公众号.jpg)

@@ -196,6 +196,7 @@ class Dataset[T] private[sql](
   }
 
   // Wraps analyzed logical plans with an analysis barrier so we won't traverse/resolve it again.
+//  使用分析屏障封装逻辑计划，使得我们不需要重复转换/解析。
   @transient private[sql] val planWithBarrier = AnalysisBarrier(logicalPlan)
 
   /**
