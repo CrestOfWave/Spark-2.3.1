@@ -820,7 +820,7 @@ object StreamingContext extends Logging {
    * If checkpoint data exists in the provided `checkpointPath`, then StreamingContext will be
    * recreated from the checkpoint data. If the data does not exist, then the StreamingContext
    * will be created by called the provided `creatingFunc`.
-   *
+   * 要么从checkpoint 恢复一个streamingContext，要么创建一个新的StreamingContext
    * @param checkpointPath Checkpoint directory used in an earlier StreamingContext program
    * @param creatingFunc   Function to create a new StreamingContext
    * @param hadoopConf     Optional Hadoop configuration if necessary for reading from the

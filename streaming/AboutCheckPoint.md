@@ -18,7 +18,7 @@
 
 总而言之，元数据checkpoint主要用于从driver故障中恢复，而如果使用有状态转换操作，也需要数据或RDD 进行checkpoint。
 
-### 1.2 合适使能checkpoint
+### 1.2 何时开启checkpoint
 
 必须为具有以下任何要求的应用程序启用checkpoint：
 
@@ -140,7 +140,7 @@ wordCounts.foreachRDD { (rdd: RDD[(String, Int)], time: Time) =>
 
 2. 温柔地关闭现有应用程序（StreamingContext.stop或JavaStreamingContext.stop这两个API文档里有温柔停止应用程序的参数详解），以确保在关闭之前完全处理已接收的数据。
 然后可以启动升级的应用程序，该应用程序将从早期应用程序停止的同一位置开始处理。请注意，这只能通过支持源端缓冲的输入源（如Kafka和Flume）来完成，因为在前一个应用程序关闭且升级的应用程序尚未启动时需要缓冲数据。
-并且无法从早期checkpoint中重新启动升级前代码的信息。checkpoint信息基本上包含序列化的Scala / Java / Python对象，而且尝试使用新的修改类反序列化这些对象可能会导致错误。
+并且无法从早期checkpoint中重新启动升级前代码的信息。checkpoint信息本质上包含序列化的Scala / Java / Python对象，尝试使用新的修改类反序列化这些对象可能会导致错误。
 在这种情况下，要么使用不同的checkpoint目录启动升级的应用程序，要么删除以前的checkpoint目录。
 StreamingContext.stop 方法如下：
 ```scala
@@ -162,22 +162,519 @@ if true, stops gracefully by waiting for the processing of all received data to 
 spark.streaming.stopGracefullyOnShutdown	false	If true, Spark shuts down the StreamingContext gracefully on JVM shutdown rather than immediately.
 ```
 
+## 2. 源码介绍
+
+### 2.1  do checkpoint的入口
+
+前面小结主要是讲了checkpoint的官网上整理的内容。下面就从源码的角度看看checkpoint。
+
+首先是要回忆一下，spark streaming 的job生成的过程。是有个定时器按照批处理时间周期性的去调度生产job，当然这个在无窗口函数的时候是这样，有窗口函数的时候时间就是batch时间的整数倍了。
+这段代码在 JobGenerator
+```scala
+  private val timer = new RecurringTimer(clock, ssc.graph.batchDuration.milliseconds,
+    longTime => eventLoop.post(GenerateJobs(new Time(longTime))), "JobGenerator")
+```
+
+关于eventloop后面会在spark内部通讯机制里面讲到。这里用到的eventloop，在 JobGenerator start方法内部实现，代码如下：
+
+````scala
+eventLoop = new EventLoop[JobGeneratorEvent]("JobGenerator") {
+      override protected def onReceive(event: JobGeneratorEvent): Unit = processEvent(event)
+
+      override protected def onError(e: Throwable): Unit = {
+        jobScheduler.reportError("Error in job generator", e)
+      }
+    }
+    eventLoop.start()
+````
+
+processEvent(event)是具体处理事件的方法,主要有四种事件：
+
+1. GenerateJobs：当前时间生成job；
+
+2. ClearMetadata：当前时间清楚元数据；
+
+3. DoCheckpoint：进行checkpoint；
+
+4. ClearCheckpointData清除checkpoint 数据。
+
+```scala
+/** Processes all events */
+  private def processEvent(event: JobGeneratorEvent) {
+    logDebug("Got event " + event)
+    event match {
+      case GenerateJobs(time) => generateJobs(time)
+      case ClearMetadata(time) => clearMetadata(time)
+      case DoCheckpoint(time, clearCheckpointDataLater) =>
+        doCheckpoint(time, clearCheckpointDataLater)
+      case ClearCheckpointData(time) => clearCheckpointData(time)
+    }
+  }
+```
+
+鉴于，本文主要是讲解checkpoint的过程。所以，很细节的内容及eventloop的原理，浪尖在这里就不再讲解。
 
 
+`generateJobs(time)`方法里，产生DoCheckpoint的事件
 
+```scala
+/** Generate jobs and perform checkpointing for the given `time`.  */
+  private def generateJobs(time: Time) {
+    // Checkpoint all RDDs marked for checkpointing to ensure their lineages are
+    // truncated periodically. Otherwise, we may run into stack overflows (SPARK-6847).
+    ssc.sparkContext.setLocalProperty(RDD.CHECKPOINT_ALL_MARKED_ANCESTORS, "true")
+    Try {
+      jobScheduler.receiverTracker.allocateBlocksToBatch(time) // allocate received blocks to batch
+      graph.generateJobs(time) // generate jobs using allocated block
+    } match {
+      case Success(jobs) =>
+        val streamIdToInputInfos = jobScheduler.inputInfoTracker.getInfo(time)
+        jobScheduler.submitJobSet(JobSet(time, jobs, streamIdToInputInfos))
+      case Failure(e) =>
+        jobScheduler.reportError("Error generating jobs for time " + time, e)
+        PythonDStream.stopStreamingContextIfPythonProcessIsDead(e)
+    }
+    // 会调用 doCheckpoint(time, clearCheckpointDataLater)
+    eventLoop.post(DoCheckpoint(time, clearCheckpointDataLater = false))
+  }
+```
 
+会通过eventloop，转而进入具体的处理函数`doCheckpoint(time, clearCheckpointDataLater)`
+```scala
+/** Perform checkpoint for the given `time`. */
+  private def doCheckpoint(time: Time, clearCheckpointDataLater: Boolean) {
+//    会先判断是否开启了checkpoint，然后时间间隔是否是checkpoint的整数倍。
+    if (shouldCheckpoint && (time - graph.zeroTime).isMultipleOf(ssc.checkpointDuration)) {
+      logInfo("Checkpointing graph for time " + time)
+      ssc.graph.updateCheckpointData(time)
+      checkpointWriter.write(new Checkpoint(ssc, time), clearCheckpointDataLater)
+    } else if (clearCheckpointDataLater) {
+      markBatchFullyProcessed(time)
+    }
+  }
+```
+首先会判断是否开启checkpoint，也即是shouldCheckpoint,该变量是个lazy型的变量，内容如下：
+```scala
+  // lazy变量，初始化之前需要设置checkpoint duration和checkpointDir。
+  private lazy val shouldCheckpoint = ssc.checkpointDuration != null && ssc.checkpointDir != null
+```
 
+接着是，判断是否是到了checkpoint的周期。
+```scala
+(time - graph.zeroTime).isMultipleOf(ssc.checkpointDuration)
+```
 
+接着就进入了checkpoint操作，前面也说到了checkpoint主要分两个部分：
 
+1. 更新checkpoint数据
 
+2. 写chekpoint元数据。
 
+````scala
+ssc.graph.updateCheckpointData(time)
+checkpointWriter.write(new Checkpoint(ssc, time), clearCheckpointDataLater)
+````
 
+### 2.2 checkpoint data
 
+数据checkpoint，那必然是在DStream生成RDD的时候去做最靠谱。
 
+当然，熟悉Spark Streaming源码的肯定知道，job的产生实际上伴随着RDD的生成。在JobGenerator方法内部`generateJobs(time: Time)`
+```scala
+graph.generateJobs(time) // generate jobs using allocated block
 
+接着进入
 
+  def generateJobs(time: Time): Seq[Job] = {
+    logDebug("Generating jobs for time " + time)
+    val jobs = this.synchronized {
+      outputStreams.flatMap { outputStream =>
+        val jobOption = outputStream.generateJob(time)
+        jobOption.foreach(_.setCallSite(outputStream.creationSite))
+        jobOption
+      }
+    }
+    logDebug("Generated " + jobs.length + " jobs for time " + time)
+    jobs
+  }
 
+```
+会触发，每个输入流的generateJob的调用`outputStream.generateJob(time)`
+```scala
+*  使用给定的时间产生一个 Spark streaming 任务。
+    */
+  private[streaming] def generateJob(time: Time): Option[Job] = {
+    getOrCompute(time) match {
+      case Some(rdd) =>
+        val jobFunc = () => {
+          val emptyFunc = { (iterator: Iterator[T]) => {} }
+          context.sparkContext.runJob(rdd, emptyFunc)
+        }
+        Some(new Job(time, jobFunc))
+      case None => None
+    }
+  }
+```
 
+那么，接下来就是终点了，RDD的生成`getOrCompute(time) `
+````scala
+ /**
+   * Get the RDD corresponding to the given time; either retrieve it from cache
+   * or compute-and-cache it.
+   */
+  private[streaming] final def getOrCompute(time: Time): Option[RDD[T]] = {
+    // If RDD was already generated, then retrieve it from HashMap,
+    // or else compute the RDD
+    generatedRDDs.get(time).orElse {
+      // Compute the RDD if time is valid (e.g. correct time in a sliding window)
+      // of RDD generation, else generate nothing.
+      if (isTimeValid(time)) {
 
+        val rddOption = createRDDWithLocalProperties(time, displayInnerRDDOps = false) {
+          // Disable checks for existing output directories in jobs launched by the streaming
+          // scheduler, since we may need to write output to an existing directory during checkpoint
+          // recovery; see SPARK-4835 for more details. We need to have this call here because
+          // compute() might cause Spark jobs to be launched.
+          SparkHadoopWriterUtils.disableOutputSpecValidation.withValue(true) {
+            compute(time)
+          }
+        }
 
+        rddOption.foreach { case newRDD =>
+          // Register the generated RDD for caching and checkpointing
+          if (storageLevel != StorageLevel.NONE) {
+            newRDD.persist(storageLevel)
+            logDebug(s"Persisting RDD ${newRDD.id} for time $time to $storageLevel")
+          }
+          if (checkpointDuration != null && (time - zeroTime).isMultipleOf(checkpointDuration)) {
+            newRDD.checkpoint()
+            logInfo(s"Marking RDD ${newRDD.id} for time $time for checkpointing")
+          }
+          generatedRDDs.put(time, newRDD)
+        }
+        rddOption
+      } else {
+        None
+      }
+    }
+  }
+````
 
+可以看到在生成RDD后，假如开启了checkpoint并且到了checkpoint的时间，就会进行checkpoint,并且会把newRDD放入内存缓存
+```scala
+newRDD.checkpoint()
+
+generatedRDDs.put(time, newRDD)
+```
+
+前面知识RDD的checkpoint，那么如何跟Spark Streaming的checkpoint的关联起来的呢？
+
+回想前面的代码，其中 JobGenerator的 doCheckpoint 方法内部，其中有一行。
+
+````scala
+ssc.graph.updateCheckpointData(time)
+````
+
+这个是DStreamGraph的方法
+
+```scala
+def updateCheckpointData(time: Time) {
+    logInfo("Updating checkpoint data for time " + time)
+    this.synchronized {
+      outputStreams.foreach(_.updateCheckpointData(time))
+    }
+    logInfo("Updated checkpoint data for time " + time)
+  }
+```
+
+可以看到，最终调用的是每个输出流的updateCheckpointData方法。主要目的是：
+
+刷新已经checkpoint的RDD列表，该列表会随着stream的checkpoint一起被保存。 该实现仅会将已checkpoint的RDD的文件名保存到checkpointData。
+
+```scala
+  *  
+    *
+   */
+  private[streaming] def updateCheckpointData(currentTime: Time) {
+    logDebug(s"Updating checkpoint data for time $currentTime")
+    checkpointData.update(currentTime)
+    dependencies.foreach(_.updateCheckpointData(currentTime))
+    logDebug(s"Updated checkpoint data for time $currentTime: $checkpointData")
+  }
+```
+具体实现还是在 DStreamCheckpointData 的 update 方法中。
+更新 DStream 的 checkpoint 数据。每次graph checkpoint发起的时候，都会调用。默认实现记录已保存DStream生成的RDD的checkpoint文件。
+
+这里可以看到亲切的DStream的generatedRDDs对象。这样就完成了checkpoint 数据关联到了DStreamCheckpointData内部，也即是currentCheckpointFiles对象。
+
+timeToCheckpointFile和timeToOldestCheckpointFileTime都被标记为了 @transient，数据会在DStreamCheckpointData序列话写入文件的时候丢失，在反序列化的时候创建了新的空对象。
+
+关于transient请参考我的文章。[transient关键字详解](https://mp.weixin.qq.com/s/POBdZh79KO5B2dFTSJ-Cgg)
+```scala
+  def update(time: Time) {
+
+    // Get the checkpointed RDDs from the generated RDDs
+    //从 generatedRDDs 获取已checkpoint RDD
+    val checkpointFiles = dstream.generatedRDDs.filter(_._2.getCheckpointFile.isDefined)
+                                       .map(x => (x._1, x._2.getCheckpointFile.get))
+    logDebug("Current checkpoint files:\n" + checkpointFiles.toSeq.mkString("\n"))
+
+    // Add the checkpoint files to the data to be serialized
+    if (!checkpointFiles.isEmpty) {
+      currentCheckpointFiles.clear()
+      currentCheckpointFiles ++= checkpointFiles
+      // Add the current checkpoint files to the map of all checkpoint files
+      // This will be used to delete old checkpoint files
+      timeToCheckpointFile ++= currentCheckpointFiles
+      // Remember the time of the oldest checkpoint RDD in current state
+      timeToOldestCheckpointFileTime(time) = currentCheckpointFiles.keys.min(Time.ordering)
+    }
+  }
+```
+
+### 2.3 checkpoint 元数据
+
+元数据的checkpoint入口也是在 JobGenerator的 doCheckpoint 方法内部
+```scala
+checkpointWriter.write(new Checkpoint(ssc, time), clearCheckpointDataLater)
+```
+
+其实，可以分两个部分看：
+
+1. Checkpoint类
+    
+2. CheckpointWriter类
+
+#### 2.3.1 Checkpoint类
+
+1. checkpoint的内容
+
+```scala
+  val master = ssc.sc.master
+  val framework = ssc.sc.appName
+  val jars = ssc.sc.jars
+  val graph = ssc.graph
+  val checkpointDir = ssc.checkpointDir
+  val checkpointDuration = ssc.checkpointDuration
+  val pendingTimes = ssc.scheduler.getPendingTimes().toArray
+  val sparkConfPairs = ssc.conf.getAll
+```
+
+2. 序列化和反序列化的接口
+
+serialize是在CheckpointWriter的write方法和streamingContext#start#validate方法内部调用，前者是进行checkpoint过程，后者主要是主要是为了验证DStream是否有不可序列化的方法。
+
+```scala
+ // Verify whether the DStream checkpoint is serializable
+    if (isCheckpointingEnabled) {
+      val checkpoint = new Checkpoint(this, Time(0))
+      try {
+        Checkpoint.serialize(checkpoint, conf)
+      } catch {
+        case e: NotSerializableException =>
+          throw new NotSerializableException(
+            "DStream checkpointing has been enabled but the DStreams with their functions " +
+              "are not serializable\n" +
+              SerializationDebugger.improveException(checkpoint, e).getMessage()
+          )
+      }
+    }
+```
+
+deserialize在CheckpointReader的read方法内部调用，从checkpoint内部恢复。
+
+#### 2.3.2 CheckpointWriter 类
+该对象在构建的时候，其实内部构建了一个 [ThreadPoolExecutor](http://mp.weixin.qq.com/s?__biz=MzA3MDY0NTMxOQ==&mid=100001519&idx=1&sn=bceff23ea83bd44941ffec15255b66c1&chksm=1f38e5c7284f6cd10c40b0af9cd0414fabfa6c7a7d61efaf46087d5a60fc822f1461da2c1d10#rd)
+
+````scala
+val executor = new ThreadPoolExecutor(
+    1, 1,
+    0L, TimeUnit.MILLISECONDS,
+    new ArrayBlockingQueue[Runnable](1000))
+````
+
+CheckpointWriteHandler是CheckpointWriter的内部类，实现了Runnable接口，主要作用如下：
+
+1. 将checkpoint 写入临时文件
+```scala
+if (fs == null) {
+            fs = new Path(checkpointDir).getFileSystem(hadoopConf)
+          }
+          // Write checkpoint to temp file
+          fs.delete(tempFile, true) // just in case it exists
+          val fos = fs.create(tempFile)
+          Utils.tryWithSafeFinally {
+            fos.write(bytes)
+          } {
+            fos.close()
+          }
+```
+
+2. 备份存在的checkpoint文件
+```scala
+/ If the backup exists as well, just delete it, otherwise rename will fail
+          if (fs.exists(checkpointFile)) {
+            fs.delete(backupFile, true) // just in case it exists
+            if (!fs.rename(checkpointFile, backupFile)) {
+              logWarning(s"Could not rename $checkpointFile to $backupFile")
+            }
+          }
+```
+
+3. 将临时文件重命名
+
+````scala
+// Rename temp file to the final checkpoint file
+          if (!fs.rename(tempFile, checkpointFile)) {
+            logWarning(s"Could not rename $tempFile to $checkpointFile")
+          }
+````
+
+4. 删除旧的checkpoint文件
+
+```scala
+// Delete old checkpoint files
+          val allCheckpointFiles = Checkpoint.getCheckpointFiles(checkpointDir, Some(fs))
+          if (allCheckpointFiles.size > 10) {
+            allCheckpointFiles.take(allCheckpointFiles.size - 10).foreach { file =>
+              logInfo(s"Deleting $file")
+              fs.delete(file, true)
+            }
+          }
+```
+
+5. 清除checkpoint数据
+
+1-4步骤都是Checkpoint对象序列化，然后写入checkpoint文件的过程。前面也说到了checkpoint数据 的过程但是就是没有checkpoint 数据删除的过程。
+
+```scala
+   jobGenerator.onCheckpointCompletion(checkpointTime, clearCheckpointDataLater)
+
+```
+
+经过eventloop滞后进入了`clearCheckpointData`方法,在里面对checkpoint数据进行了清除。
+
+```scala
+/** Clear DStream checkpoint data for the given `time`. */
+  private def clearCheckpointData(time: Time) {
+    ssc.graph.clearCheckpointData(time)
+
+    // All the checkpoint information about which batches have been processed, etc have
+    // been saved to checkpoints, so its safe to delete block metadata and data WAL files
+    val maxRememberDuration = graph.getMaxInputStreamRememberDuration()
+    jobScheduler.receiverTracker.cleanupOldBlocksAndBatches(time - maxRememberDuration)
+    jobScheduler.inputInfoTracker.cleanup(time - maxRememberDuration)
+    markBatchFullyProcessed(time)
+  }
+```
+
+### 2.4 从checkpoint恢复
+
+从checkpoint恢复，应该也包括两个部分：
+
+1. 恢复元数据
+
+2. 恢复数据
+
+#### 2.4.1 恢复元数据
+入口必然是，第一节所说的
+```scala
+StreamingContext.getOrCreate(checkpointDirectory, functionToCreateContext _)
+
+def getOrCreate(
+      checkpointPath: String,
+      creatingFunc: () => StreamingContext,
+      hadoopConf: Configuration = SparkHadoopUtil.get.conf,
+      createOnError: Boolean = false
+    ): StreamingContext = {
+    val checkpointOption = CheckpointReader.read(
+      checkpointPath, new SparkConf(), hadoopConf, createOnError)
+    checkpointOption.map(new StreamingContext(null, _, null)).getOrElse(creatingFunc())
+  }
+
+```
+
+CheckpointReader的read方法内部就是调用`Checkpoint.deserialize(fis, conf)`反序列化得到checkpoint对象的过程。
+
+然后就是利用恢复的checkpoint对象，创建一个新的StreamingContext
+```scala
+    checkpointOption.map(new StreamingContext(null, _, null)).getOrElse(creatingFunc())
+```
+
+Checkpoint内容，那么必然也会用反序列化的checkpoint对象，来恢复这些内容。
+```scala
+  val master = ssc.sc.master
+  val framework = ssc.sc.appName
+  val jars = ssc.sc.jars
+  val graph = ssc.graph
+  val checkpointDir = ssc.checkpointDir
+  val checkpointDuration = ssc.checkpointDuration
+  val pendingTimes = ssc.scheduler.getPendingTimes().toArray
+  val sparkConfPairs = ssc.conf.getAll
+```
+
+#### 2.4.2 恢复数据
+
+利用checkpoint对象构建StreamingContext的时候
+```scala
+//  加假如有checkpoint就从checkpoint恢复，没有checkpoint就创建新的
+  private[streaming] val graph: DStreamGraph = {
+    if (isCheckpointPresent) {
+      _cp.graph.setContext(this)
+      _cp.graph.restoreCheckpointData()
+      _cp.graph
+    } else {
+      require(_batchDur != null, "Batch duration for StreamingContext cannot be null")
+      val newGraph = new DStreamGraph()
+      newGraph.setBatchDuration(_batchDur)
+      newGraph
+    }
+  }
+```
+其中就有恢复数据的过程
+```scala
+cp.graph.restoreCheckpointData()
+```
+restoreCheckpointData方法实现
+```scala
+def restoreCheckpointData() {
+    logInfo("Restoring checkpoint data")
+    this.synchronized {
+      outputStreams.foreach(_.restoreCheckpointData())
+    }
+    logInfo("Restored checkpoint data")
+  }
+```
+
+在DStream的 restoreCheckpointData 方法,该方法主要目的是：
+从checkpoint数据中恢复generatedRDDs内部的RDD，
+
+```scala
+ private[streaming] def restoreCheckpointData() {
+    if (!restoredFromCheckpointData) {
+      // Create RDDs from the checkpoint data
+      logInfo("Restoring checkpoint data")
+      checkpointData.restore()
+      dependencies.foreach(_.restoreCheckpointData())
+      restoredFromCheckpointData = true
+      logInfo("Restored checkpoint data")
+    }
+  }
+```
+
+恢复的过程是DStreamCheckpointData的restore方法
+
+```scala
+  def restore() {
+    // Create RDDs from the checkpoint data
+    currentCheckpointFiles.foreach {
+      case(time, file) =>
+        logInfo("Restoring checkpointed RDD for time " + time + " from file '" + file + "'")
+        dstream.generatedRDDs += ((time, dstream.context.sparkContext.checkpointFile[T](file)))
+    }
+  }
+```
+
+currentCheckpointFiles不就是2.2小结说到的currentCheckpointFiles，写入到checkpoint的内容么。
+
+这就结束了整个恢复的过程

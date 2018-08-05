@@ -62,6 +62,7 @@ class JobGenerator(jobScheduler: JobScheduler) extends Logging {
 
   // This is marked lazy so that this is initialized after checkpoint duration has been set
   // in the context and the generator has been started.
+  // lazy变量，初始化之前需要设置checkpoint duration和checkpointDir。
   private lazy val shouldCheckpoint = ssc.checkpointDuration != null && ssc.checkpointDir != null
 
   private lazy val checkpointWriter = if (shouldCheckpoint) {
@@ -291,6 +292,7 @@ class JobGenerator(jobScheduler: JobScheduler) extends Logging {
 
   /** Perform checkpoint for the given `time`. */
   private def doCheckpoint(time: Time, clearCheckpointDataLater: Boolean) {
+//    会先判断是否开启了checkpoint，然后时间间隔是否是checkpoint的整数倍。
     if (shouldCheckpoint && (time - graph.zeroTime).isMultipleOf(ssc.checkpointDuration)) {
       logInfo("Checkpointing graph for time " + time)
       ssc.graph.updateCheckpointData(time)

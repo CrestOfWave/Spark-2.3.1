@@ -426,8 +426,9 @@ abstract class DStream[T: ClassTag] (
    * Generate a SparkStreaming job for the given time. This is an internal method that
    * should not be called directly. This default implementation creates a job
    * that materializes the corresponding RDD. Subclasses of DStream may override this
-   * to generate their own jobs.
-   */
+    * to generate their own jobs.
+    *  使用给定的时间产生一个 Spark streaming 任务。
+    */
   private[streaming] def generateJob(time: Time): Option[Job] = {
     getOrCompute(time) match {
       case Some(rdd) =>
@@ -476,6 +477,8 @@ abstract class DStream[T: ClassTag] (
    * a default implementation that saves only the file names of the checkpointed RDDs to
    * checkpointData. Subclasses of DStream (especially those of InputDStream) may override
    * this method to save custom checkpoint data.
+    *  刷新已经checkpoint的RDD列表，该列表会随着stream的checkpoint一起被保存。 该实现仅会将已checkpoint的RDD的文件名保存到checkpointData。
+    *
    */
   private[streaming] def updateCheckpointData(currentTime: Time) {
     logDebug(s"Updating checkpoint data for time $currentTime")

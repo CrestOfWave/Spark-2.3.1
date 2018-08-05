@@ -46,10 +46,12 @@ class DStreamCheckpointData[T: ClassTag](dstream: DStream[T])
    * Updates the checkpoint data of the DStream. This gets called every time
    * the graph checkpoint is initiated. Default implementation records the
    * checkpoint files at which the generated RDDs of the DStream have been saved.
+    *  更新 DStream的checkpoint数据。每次graph checkpoint发起的时候，都会调用。默认实现记录已保存DStream生成的RDD的checkpoint文件。
    */
   def update(time: Time) {
 
     // Get the checkpointed RDDs from the generated RDDs
+    //从 generatedRDDs 获取已checkpoint RDD
     val checkpointFiles = dstream.generatedRDDs.filter(_._2.getCheckpointFile.isDefined)
                                        .map(x => (x._1, x._2.getCheckpointFile.get))
     logDebug("Current checkpoint files:\n" + checkpointFiles.toSeq.mkString("\n"))
