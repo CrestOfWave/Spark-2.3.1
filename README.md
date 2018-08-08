@@ -10,6 +10,8 @@
 
 4. [GroupByKey VS ReduceByKey](core/ReduceByKeyAndGroupByKey.md)
 
+5. [OrderedRDDFunctions那些事](core/AboutOrderedRDDFunctions.md)
+
 ### Spark Sql源码阅读
 
 1. [Spark Sql源码阅读](sql/README.md)
