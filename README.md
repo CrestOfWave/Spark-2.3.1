@@ -16,6 +16,7 @@
 
 1. [Spark Sql源码阅读](sql/README.md)
 
+2. [hive on spark调优](sql/TuneHiveOnSpark.md)
 
 ### Spark Streaming源码阅读
 
