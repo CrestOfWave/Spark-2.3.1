@@ -12,6 +12,8 @@
 
 5. [OrderedRDDFunctions那些事](core/AboutOrderedRDDFunctions.md)
 
+6. [高效使用mappartitions](core/AboutMappartition.md)
+
 ### Spark Sql源码阅读
 
 1. [Spark Sql源码阅读](sql/README.md)
