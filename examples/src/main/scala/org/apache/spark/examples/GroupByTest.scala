@@ -50,6 +50,12 @@ object GroupByTest {
     // Enforce that everything has been calculated and in cache
     pairs1.count()
 
+    implicit val caseInsensitiveOrdering = new Ordering[(Int, String)] {
+
+      override def compare(a: (Int, String), b: (Int, String)): Int = a._1.compareTo( b._1)
+
+    }
+
     println(pairs1.groupByKey(numReducers).count())
 
     spark.stop()
