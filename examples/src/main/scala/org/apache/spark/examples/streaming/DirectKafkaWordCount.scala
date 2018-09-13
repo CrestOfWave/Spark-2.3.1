@@ -60,7 +60,6 @@ object DirectKafkaWordCount {
       LocationStrategies.PreferConsistent,
       ConsumerStrategies.Subscribe[String, String](topicsSet, kafkaParams))
 
-
     // Get the lines, split them into words, count the words and print
     val lines = messages.map(_.value)
     val words = lines.flatMap(_.split(" "))

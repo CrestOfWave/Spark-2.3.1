@@ -93,7 +93,7 @@ object functions {
    * @group normal_funcs
    * @since 1.3.0
    */
-  def lit(literal: Any): Column = typedLit(literal)
+  def DataSourceV2lit(literal: Any): Column = typedLit(literal)
 
   /**
    * Creates a [[Column]] of literal value.

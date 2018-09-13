@@ -128,14 +128,19 @@ private[spark] class CoalescedRDD[T: ClassTag](
  * Coalesce the partitions of a parent RDD (`prev`) into fewer partitions, so that each partition of
  * this RDD computes one or more of the parent ones. It will produce exactly `maxPartitions` if the
  * parent had more than maxPartitions, or fewer if the parent had fewer.
- *
+ * 该类的主要目的是将父类的分区数变为更少的分区数，所以每个分区数会包含一个或者多个父分区。
  * This transformation is useful when an RDD with many partitions gets filtered into a smaller one,
  * or to avoid having a large number of small tasks when processing a directory with many files.
- *
+ * 该转换在RDD在执行fliter算子后，很多分区数据变很少，或者读取的文件目录内有很多小文件，这个时候就适合降低分区数。
  * If there is no locality information (no preferredLocations) in the parent, then the coalescing
  * is very simple: chunk parents that are close in the Array in chunks.
+ * 如果没有数据本地性信息，合并是很简单的，只需要将父chunk合并到一个array里即可
  * If there is locality information, it proceeds to pack them with the following four goals:
- *
+ * 如果有数据本地性信息，合并就需要有标准了，如下：
+ * 1. 平衡组，使它们大致有相同数量的父分区。
+ * 2. 实现分区本地性，即是找到大多数父分区的最佳本地性的机器。
+ * 3. 高效。
+ * 4. 均衡最佳运行机器，避免大多数分区选择相同的本地性
  * (1) Balance the groups so they roughly have the same number of parent partitions
  * (2) Achieve locality per partition, i.e. find one machine which most parent partitions prefer
  * (3) Be efficient, i.e. O(n) algorithm for n parent partitions (problem is likely NP-hard)
@@ -143,7 +148,7 @@ private[spark] class CoalescedRDD[T: ClassTag](
  *
  * Furthermore, it is assumed that the parent RDD may have many partitions, e.g. 100 000.
  * We assume the final number of desired partitions is small, e.g. less than 1000.
- *
+ * 该算法会尽量为每个分区选择唯一的最佳运行位置。
  * The algorithm tries to assign unique preferred machines to each partition. If the number of
  * desired partitions is greater than the number of preferred machines (can happen), it needs to
  * start picking duplicate preferred machines. This is determined using coupon collector estimation
@@ -189,6 +194,7 @@ private class DefaultPartitionCoalescer(val balanceSlack: Double = 0.10)
 
     // gets all the preferred locations of the previous RDD and splits them into partitions
     // with preferred locations and ones without
+    // 获取所有父RDD的最佳运行位置，然后将它们分类为带有最佳运行位置的部分和不带最佳未知的部分。
     def getAllPrefLocs(prev: RDD[_]): Unit = {
       val tmpPartsWithLocs = mutable.LinkedHashMap[Partition, Seq[String]]()
       // first get the locations for each partition, only do this once since it can be expensive
@@ -236,6 +242,8 @@ private class DefaultPartitionCoalescer(val balanceSlack: Double = 0.10)
    * is assigned a preferredLocation. This uses coupon collector to estimate how many
    * preferredLocations it must rotate through until it has seen most of the preferred
    * locations (2 * n log(n))
+    * 初始化targetLen分区组。 如果有首选位置，则为每个组分配一个preferredLocation。
+    * 使用coupon收集器来估计它必须遍历多少个preferredLocations，在它看到大多数首选位置（2 * n log（n））之前
    * @param targetLen
    */
   def setupGroups(targetLen: Int, partitionLocs: PartitionLocations) {

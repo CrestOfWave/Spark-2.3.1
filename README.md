@@ -20,6 +20,8 @@
 
 2. [hive on spark调优](sql/TuneHiveOnSpark.md)
 
+3. [Spark SQL 多维聚合分析应用案例](sql/Multi-DimensionalAggregation.md)
+
 ### Spark Streaming源码阅读
 
 1. [动态发现新增分区](streaming/DiscoverNewPartition.md)

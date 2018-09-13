@@ -78,6 +78,8 @@ object SparkSQLExample {
 
     // Select only the "name" column
     df.select("name").show()
+
+    df.write.mode("overwrite").saveAsTable("tabname")
     // +-------+
     // |   name|
     // +-------+
