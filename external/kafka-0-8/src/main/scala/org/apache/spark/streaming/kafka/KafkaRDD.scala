@@ -44,7 +44,7 @@ import org.apache.spark.util.NextIterator
  * @param messageHandler function for translating each message into the desired type
  */
 private[kafka]
-class KafkaRDD[
+class  KafkaRDD[
   K: ClassTag,
   V: ClassTag,
   U <: Decoder[_]: ClassTag,

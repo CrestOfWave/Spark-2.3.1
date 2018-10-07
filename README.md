@@ -14,6 +14,8 @@
 
 6. [高效使用mappartitions](core/AboutMappartition.md)
 
+7. [standalone模式下executor调度策略](core/ScheduleExecutorsOnWorkers.md)
+
 ### Spark Sql源码阅读
 
 1. [Spark Sql源码阅读](sql/README.md)

@@ -640,6 +640,7 @@ private[deploy] class Master(
 
           // If we are launching one executor per worker, then every iteration assigns 1 core
           // to the executor. Otherwise, every iteration assigns cores to a new executor.
+//          判断是不是一个worker仅仅加载一个executor，由是否配置spark.executor.cores决定，假如配置了，oneExecutorPerWorker值就为false。
           if (oneExecutorPerWorker) {
             assignedExecutors(pos) = 1
           } else {
@@ -650,6 +651,8 @@ private[deploy] class Master(
           // many workers as possible. If we are not spreading out, then we should keep
           // scheduling executors on this worker until we use all of its resources.
           // Otherwise, just move on to the next worker.
+
+//          spark.deploy.spreadOut 参数值
           if (spreadOutApps) {
             keepScheduling = false
           }
