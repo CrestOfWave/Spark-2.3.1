@@ -231,16 +231,16 @@ private[streaming] class BlockGenerator(
 
   /** Change the buffer to which single records are added to. */
   private def updateCurrentBuffer(time: Long): Unit = {
-    try {
-      var newBlock: Block = null
-      synchronized {
-        if (currentBuffer.nonEmpty) {
-          val newBlockBuffer = currentBuffer
-          currentBuffer = new ArrayBuffer[Any]
-          val blockId = StreamBlockId(receiverId, time - blockIntervalMs)
-          listener.onGenerateBlock(blockId)
-          newBlock = new Block(blockId, newBlockBuffer)
-        }
+          try {
+            var newBlock: Block = null
+            synchronized {
+              if (currentBuffer.nonEmpty) {
+                val newBlockBuffer = currentBuffer
+                currentBuffer = new ArrayBuffer[Any]
+                val blockId = StreamBlockId(receiverId, time - blockIntervalMs)
+                listener.onGenerateBlock(blockId)
+                newBlock = new Block(blockId, newBlockBuffer)
+              }
       }
 
       if (newBlock != null) {

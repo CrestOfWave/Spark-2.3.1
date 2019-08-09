@@ -266,7 +266,7 @@ abstract class AggregationIterator(
     }
   }
 
-  protected val generateOutput: (UnsafeRow, InternalRow) => UnsafeRow =
+  protected val  generateOutput: (UnsafeRow, InternalRow) => UnsafeRow =
     generateResultProjection()
 
   /** Initializes buffer values for all aggregate functions. */

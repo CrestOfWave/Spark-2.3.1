@@ -22,7 +22,7 @@ import org.apache.spark.util.ListenerBus
 /**
  * A [[SparkListenerEvent]] bus that relays [[SparkListenerEvent]]s to its listeners
  */
-private[spark] trait SparkListenerBus
+private[spark] trait  SparkListenerBus
   extends ListenerBus[SparkListenerInterface, SparkListenerEvent] {
 
   protected override def doPostEvent(

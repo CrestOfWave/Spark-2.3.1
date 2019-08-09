@@ -358,6 +358,7 @@ private[spark] class TaskSchedulerImpl(
     // Take each TaskSet in our scheduling order, and then offer it each node in increasing order
     // of locality levels so that it gets a chance to launch local tasks on all of them.
     // NOTE: the preferredLocality order: PROCESS_LOCAL, NODE_LOCAL, NO_PREF, RACK_LOCAL, ANY
+    // 每种数据本地性都会给调度的机会，而且是按照数据本地性延迟调度时间进行退化。
     for (taskSet <- sortedTaskSets) {
       var launchedAnyTask = false
       var launchedTaskAtCurrentMaxLocality = false

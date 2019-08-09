@@ -193,7 +193,7 @@ trait StreamTest extends QueryTest with SharedSQLContext with TimeLimits with Be
   case object StopStream extends StreamAction with StreamMustBeRunning
 
   /** Starts the stream, resuming if data has already been processed. It must not be running. */
-  case class StartStream(
+  case class  StartStream(
       trigger: Trigger = defaultTrigger,
       triggerClock: Clock = new SystemClock,
       additionalConfs: Map[String, String] = Map.empty,

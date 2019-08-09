@@ -27,7 +27,7 @@ import org.apache.spark.sql.types.StructType
  * A collection of data files from a partitioned relation, along with the partition values in the
  * form of an [[InternalRow]].
  */
-case class PartitionDirectory(values: InternalRow, files: Seq[FileStatus])
+case class   PartitionDirectory(values: InternalRow, files: Seq[FileStatus])
 
 /**
  * An interface for objects capable of enumerating the root paths of a relation as well as the

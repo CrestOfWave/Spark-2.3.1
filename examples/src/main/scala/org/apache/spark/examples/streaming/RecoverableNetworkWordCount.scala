@@ -116,6 +116,7 @@ object RecoverableNetworkWordCount {
     val lines = ssc.socketTextStream(ip, port)
     val words = lines.flatMap(_.split(" "))
     val wordCounts = words.map((_, 1)).reduceByKey(_ + _)
+    wordCounts.print()
     wordCounts.foreachRDD { (rdd: RDD[(String, Int)], time: Time) =>
       // Get or register the blacklist Broadcast
       val blacklist = WordBlacklist.getInstance(rdd.sparkContext)

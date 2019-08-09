@@ -29,8 +29,8 @@ import org.apache.spark.util.Utils
  *
  * Three kinds of resources can be registered in this manager, all backed by actual files:
  *
- * - "/files": a flat list of files; used as the backend for [[SparkContext.addFile]].
- * - "/jars": a flat list of files; used as the backend for [[SparkContext.addJar]].
+ * - "/files": a flat list of files; used as the backend for [[org.apache.spark.SparkContext.addFile]].
+ * - "/jars": a flat list of files; used as the backend for [[org.apache.spark.SparkContext.addJar]].
  * - arbitrary directories; all files under the directory become available through the manager,
  *   respecting the directory's hierarchy.
  *

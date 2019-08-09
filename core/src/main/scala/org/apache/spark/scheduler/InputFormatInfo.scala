@@ -53,6 +53,9 @@ class InputFormatInfo(val configuration: Configuration, val inputFormatClazz: Cl
     hashCode = hashCode * 31 + path.hashCode
     hashCode
   }
+  /*
+
+   */
 
   // Since we are not doing canonicalization of path, this can be wrong : like relative vs
   // absolute path .. which is fine, this is best case effort to remove duplicates - right ?

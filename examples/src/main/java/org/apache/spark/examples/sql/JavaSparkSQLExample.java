@@ -15,7 +15,10 @@
  * limitations under the License.
  */
 package org.apache.spark.examples.sql;
-
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.examples.sql.streaming.java2scala;
+import scala.collection.JavaConverters.*;
+import scala.collection.JavaConversions.*;
 // $example on:programmatic_schema$
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +39,7 @@ import org.apache.spark.api.java.function.MapFunction;
 // $example on:create_df$
 // $example on:run_sql$
 // $example on:programmatic_schema$
+import org.apache.spark.broadcast.Broadcast;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 // $example off:programmatic_schema$
@@ -55,6 +59,7 @@ import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
 // $example off:programmatic_schema$
 import org.apache.spark.sql.AnalysisException;
+import scala.reflect.ClassTag;
 
 // $example on:untyped_ops$
 // col("...") is preferable to df.col("...")
@@ -105,6 +110,10 @@ public class JavaSparkSQLExample {
   private static void runBasicDataFrameExample(SparkSession spark) throws AnalysisException {
     // $example on:create_df$
     Dataset<Row> df = spark.read().json("examples/src/main/resources/people.json");
+
+    StructField[] fields = df.schema().fields();
+    JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
+    Broadcast<StructField[]> broadcast = jsc.broadcast(fields);
 
     // Displays the content of the DataFrame to stdout
     df.show();

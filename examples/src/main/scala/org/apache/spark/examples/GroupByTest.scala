@@ -47,6 +47,8 @@ object GroupByTest {
       }
       arr1
     }.cache()
+
+    pairs1.repartition(1)
     // Enforce that everything has been calculated and in cache
     pairs1.count()
 

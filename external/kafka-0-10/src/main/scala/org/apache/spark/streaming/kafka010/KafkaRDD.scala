@@ -167,6 +167,7 @@ private[spark] class KafkaRDD[K, V](
     // so that caching consumers can be effective.
     // TODO what about hosts specified by ip vs name
     val part = thePart.asInstanceOf[KafkaRDDPartition]
+    // 获取所有executor地址
     val allExecs = executors()
     val tp = part.topicPartition
     val prefHost = preferredHosts.get(tp)

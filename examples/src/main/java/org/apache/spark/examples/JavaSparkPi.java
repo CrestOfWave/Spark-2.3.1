@@ -38,6 +38,7 @@ public final class JavaSparkPi {
 
     JavaSparkContext jsc = new JavaSparkContext(spark.sparkContext());
 
+    new SparkSession(jsc.sc());
     int slices = (args.length == 1) ? Integer.parseInt(args[0]) : 2;
     int n = 100000 * slices;
     List<Integer> l = new ArrayList<>(n);
